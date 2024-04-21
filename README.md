@@ -1,9 +1,10 @@
-# Name
+# Namen
 - Gia Minh Le 583969
 - Phuc Hong Le Ehlert 584964
 
 # MogliChat
-Das ist unsere Chat App MogliChat
+MogliChat ist eine Chat-App, die es Benutzern ermöglicht, miteinander zu chatten 
+und individuelle Profile zu gestalten.
 
 # Entity Klassen
 
