@@ -1,11 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import RegisterLoginScreen from '../views/RegisterLoginScreenView.vue'
 import ChatView from '../views/ChatView.vue';
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/',
+      path: '/home',
       name: 'home',
       component: RegisterLoginScreen
     },
@@ -13,7 +14,7 @@ const router = createRouter({
       path: '/chat',
       name: 'chat',
       component: ChatView
-    }
+    },
   ]
 })
 
