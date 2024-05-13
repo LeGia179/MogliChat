@@ -1,47 +1,39 @@
 <script setup lang="ts">
 import MessengerListComponent from '@/components/MessageListComponent.vue';
 import {useRouter} from 'vue-router'
+import SeitenleisteComponent from "@/components/SeitenleisteComponent.vue";
+import KontaktListComponent from "@/components/KontaktListComponent.vue";
+import IrgendeineLeisteZumTesten from "@/components/IrgendeineLeisteZumTesten.vue";
 
 const router = useRouter();
 function navigateSite() {
-  router.push('/home');
+  router.push('/');
 }
 </script>
 
-<template>
-<div class="seitenleiste">
-  <button class="settingsButton" @click="navigateSite">User Settings</button>
-</div>
 
-  <main>
-    <MessengerListComponent :messagePar="[]" />
-  </main>
+
+<template>
+  <div class="ui">
+    <SeitenleisteComponent></SeitenleisteComponent>
+    <KontaktListComponent></KontaktListComponent>
+    <MessengerListComponent message-par=Message[]></MessengerListComponent>
+    <irgendeine-leiste-zum-testen></irgendeine-leiste-zum-testen>
+  </div>
+
 
 </template>
 
+
 <style scoped>
-  .seitenleiste {
-    display: flex;
-    position: fixed;
-      left: 0;
-      top: 0;
-      bottom: 0;
-    background-color: greenyellow;
-    padding: 10px;
-    z-index: 1;
-    min-width: 8vh;
-    width: 8vh;
-  }
-  /* Profil */
-  .settingsButton {
-    position: absolute;
-      bottom: 0;
-      left: 0;
-    padding: 10px;
-    border: 1px solid black;
-    color: black;
-    width: 100%;
-    height: 6vh;
-  }
+.ui {
+  display: grid;
+  grid-template-columns: [col-start1] 100px [col-end1] 400px [col-start2] 3fr [col-end2];
+  grid-template-rows:[row-start1] 100px [row-end1] 1fr [row-start2] 100px [row-end2];
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}
 
 </style>
