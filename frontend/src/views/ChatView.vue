@@ -11,8 +11,6 @@ function navigateSite() {
 }
 </script>
 
-
-
 <template>
   <div class="ui">
     <SeitenleisteComponent></SeitenleisteComponent>

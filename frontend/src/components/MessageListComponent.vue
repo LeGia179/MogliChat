@@ -15,15 +15,14 @@
   <div class="grid-container02">
     <!-- User Input für den Chat -->
     <div class="userInput">
-      <label>User Name</label>
-      <input type="text" v-model="newMessage.userName">
-      <label>User Message</label>
-      <input type="text" v-model="newMessage.message">
-      <button @click="addNewMessage"><img src="../assets/send.png" class="sendIcon"></button>
+      <input type="text" v-model="newMessage.userName" placeholder="Name" class="inputField nameInput">
+      <input type="text" v-model="newMessage.message" placeholder="Message" class="inputField">
+      <button @click="addNewMessage" class="sendButton">
+        <img src="../assets/send.png" class="sendIcon" alt="Send">
+      </button>
     </div>
   </div>
 </template>
-
 <script setup lang="ts">
 import {type Ref, ref} from 'vue';
 import type { Message } from '@/model/message';
@@ -54,11 +53,16 @@ function addNewMessage() {
   justify-content: center;
 }
 .nachrichtenUi{
-  height:95%;
+  height:75vh;
+  overflow-y: auto;
   width: 90%;
   background-color: #313332;
   border-radius: 20px;
-
+}
+.chat {
+  word-wrap: break-word;
+  text-overflow: ellipsis; /* Abgeschnittener Inhalt mit Ellipsen anzeigen */
+  padding: 5px 0; /* Innenabstand für jede Nachricht */
 }
 
 .grid-container02{
@@ -71,24 +75,41 @@ function addNewMessage() {
   align-items: center;
   justify-content: center;
 }
-.userInput{
-  background-color: #313332;
-  display: flex;
-  height: 50%;
+.userInput {
   width: 90%;
-  border-radius: 20px;
-  align-items: center;
-  justify-content: center;
-  gap:150px;
   background-color: #313332;
+  border-radius: 20px;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  margin-right: 5px; /* Abstand zwischen den Eingabefeldern */
+}
 
+.inputField {
+  flex-grow: 1;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #83deb0;
+  margin-right: 5px;
+}
 
+input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #83deb0;
 }
 .sendIcon{
   height: 3vh;
-;
 }
 
+
+.sendButton {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  margin-top: auto;
+}
 
 .chat{
   padding: 20px;
