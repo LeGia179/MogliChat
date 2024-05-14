@@ -10,6 +10,8 @@ const router = useRouter();
 function navigateSite() {
   router.push('/');
 }
+
+
 </script>
 
 <template>

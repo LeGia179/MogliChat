@@ -16,7 +16,7 @@
     <!-- User Input für den Chat -->
     <div class="userInput">
       <input type="text" v-model="newMessage.userName" placeholder="Name" class="inputField nameInput">
-      <input type="text" v-model="newMessage.message" placeholder="Message" class="inputField">
+      <input type="text" v-model="newMessage.message" placeholder="Message" class="inputField" @keyup.enter="addNewMessage">
       <button @click="addNewMessage" class="sendButton">
         <img src="../assets/send.png" class="sendIcon" alt="Send">
       </button>
@@ -39,6 +39,8 @@ function addNewMessage() {
   newMessage.value.userName = '';
   newMessage.value.message = '';
 }
+
+
 </script>
 
 <style scoped>
@@ -65,6 +67,12 @@ function addNewMessage() {
   word-wrap: break-word;
   text-overflow: ellipsis; /* Abgeschnittener Inhalt mit Ellipsen anzeigen */
   padding: 5px 0; /* Innenabstand für jede Nachricht */
+  border: 1px solid #83deb0;
+  width: 50%;
+  margin: 30px 0 0 20px;
+  border-radius: 10px;
+
+
 }
 
 .grid-container02{
