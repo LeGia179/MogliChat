@@ -1,6 +1,6 @@
 <template>
   <div class="randomLeiste">
-    <div class="randomBox"> MogliChat
+    <div class="randomBox"> MOGLICHAT
   </div>
   </div>
 </template>
@@ -24,7 +24,7 @@
 }
 .randomBox{
   display: flex;
-  height:95%;
+  height:90%;
   width: 90%;
   background-color: #313332;
   border-radius: 20px;
@@ -32,6 +32,7 @@
   color:#83deb0;
   font-size: 50px;
   align-items: center;
+  border: 1px solid #83deb0;
 }
 </style>
 

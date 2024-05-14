@@ -4,6 +4,7 @@ import {useRouter} from 'vue-router'
 import SeitenleisteComponent from "@/components/SeitenleisteComponent.vue";
 import KontaktListComponent from "@/components/KontaktListComponent.vue";
 import IrgendeineLeisteZumTesten from "@/components/IrgendeineLeisteZumTesten.vue";
+import SupportComponent from '@/components/SupportComponent.vue'
 
 const router = useRouter();
 function navigateSite() {

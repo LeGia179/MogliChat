@@ -2,13 +2,18 @@
 <div class="seitenleiste">
   <div class="seitenleisteBox">
     <button class="settingsButton"> <img src="../assets/profile.png" class="userIcon"> </button>
-    <button class="settingsButton2"><img src="../assets/setting.png" class="settingIcon"> </button>
+    <button class="settingsButton2"><img src="../assets/setting.png" class="settingIcon" @click="supportSite"> </button>
   </div>
 </div>
 </template>
 
 <script setup lang="ts">
+import {useRouter} from 'vue-router'
 
+const router = useRouter()
+function supportSite() {
+  router.push('/support')
+}
 
 </script>
 
@@ -25,6 +30,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
 
 }
 
@@ -65,7 +71,7 @@
   width: 90%;
   border-radius: 20px;
   padding: 10px;
-
+  border: 1px solid #83deb0;
 }
 </style>
 

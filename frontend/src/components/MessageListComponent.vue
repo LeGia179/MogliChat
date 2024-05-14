@@ -51,6 +51,7 @@ function addNewMessage() {
   background-color:#4a536b;
   align-items: center;
   justify-content: center;
+
 }
 .nachrichtenUi{
   height:75vh;
@@ -58,6 +59,7 @@ function addNewMessage() {
   width: 90%;
   background-color: #313332;
   border-radius: 20px;
+  border: 1px solid #83deb0;
 }
 .chat {
   word-wrap: break-word;
@@ -74,6 +76,7 @@ function addNewMessage() {
   background-color:#4a536b;
   align-items: center;
   justify-content: center;
+
 }
 .userInput {
   width: 90%;
@@ -83,6 +86,7 @@ function addNewMessage() {
   display: flex;
   justify-content: space-between;
   margin-right: 5px; /* Abstand zwischen den Eingabefeldern */
+  border: 1px solid #83deb0;
 }
 
 .inputField {
