@@ -17,4 +17,7 @@ und individuelle Profile zu gestalten.
 - Datum
 - Uhrzeit
 - Name des Senders
-- Inhaltt
+- Inhalt
+
+frontend/$npm install; npm run build
+
