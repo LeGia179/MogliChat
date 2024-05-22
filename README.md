@@ -19,5 +19,5 @@ und individuelle Profile zu gestalten.
 - Name des Senders
 - Inhalt
 
-frontend/$npm install; npm run build
-
+https://moglichat.onrender.com
+https://github.com/LeGia179/MogliChat.git
