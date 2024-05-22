@@ -22,10 +22,14 @@
       </button>
     </div>
   </div>
+
+  <button  @click="onClick"> Hello World</button>
+    <p> {{helloWorldMessage}}</p>
 </template>
 <script setup lang="ts">
 import {type Ref, ref} from 'vue';
 import type { Message } from '@/model/message';
+import axios from "axios";
 
 // #1 initialisiert der "Message" durch ein leeren Array. Array dient für Nachrichtenobjekte zu speichern
 // #ref ist eine reaktive Variable, die hier Message annimmt und bei änderungen wird diese Überwachte Variable Message automatisch an die Benutzeroberfläche aktualisiert.
@@ -40,7 +44,15 @@ function addNewMessage() {
   newMessage.value.message = '';
 }
 
+let helloWorldMessage= ref("test")
+function onClick() {
+  axios.get("http://localhost:8080/mogli")
+        .then((response) => {
+          console.log(response.data);
+          helloWorldMessage.value = response.data;
+        })
 
+}
 </script>
 
 <style scoped>
