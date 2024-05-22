@@ -17,4 +17,4 @@ und individuelle Profile zu gestalten.
 - Datum
 - Uhrzeit
 - Name des Senders
-- Inhalt
+- Inhaltt
