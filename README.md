@@ -19,5 +19,8 @@ und individuelle Profile zu gestalten.
 - Name des Senders
 - Inhalt
 
+## ChatROOM
+- Name
+
 https://moglichat.onrender.com
 https://github.com/LeGia179/MogliChat.git

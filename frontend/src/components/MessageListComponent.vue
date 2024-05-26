@@ -8,6 +8,9 @@
         <div>
           {{ userMessage.userName }}: {{ userMessage.message }}
         </div>
+        <div class="timestamp">
+          {{ formatTimestamp(userMessage.timestamp) }}
+        </div>
       </div>
     </div>
   </div>
@@ -35,16 +38,31 @@ import axios from "axios";
 // #ref ist eine reaktive Variable, die hier Message annimmt und bei änderungen wird diese Überwachte Variable Message automatisch an die Benutzeroberfläche aktualisiert.
 let messages: Ref<Message[]> = ref([]);
 //#5 initialisierung der neuen Nachricht
-const newMessage = ref<Message>({ userName: '', message: '' });
+const newMessage = ref<Message>({ userName: '', message: '' , timestamp: new Date().toISOString() });
 //#3 Funktion zum Hinzufüren einer neuen Nachricht
 function addNewMessage() {
-  messages.value.push({ userName: newMessage.value.userName, message: newMessage.value.message });
-  //#4 Eingabefelder zurücksetzen
-  newMessage.value.userName = '';
-  newMessage.value.message = '';
+  const messageToSend = { userName: newMessage.value.userName, message: newMessage.value.message };
+  axios.post('http://localhost:8080/chatP2P', messageToSend)
+      .then(() => {
+        return axios.get('http://localhost:8080/chatP2P');
+      })
+      .then((response) => {
+        messages.value = response.data;
+        newMessage.value.userName = '';
+        newMessage.value.message = '';
+      })
+      .catch((error) => {
+        console.error('Error sending message:', error);
+      });
 }
 
+
+
+/*
+Meilenstein 3
+ */
 let helloWorldMessage= ref("test")
+
 function onClick() {
   axios.get("http://localhost:8080/mogli")
         .then((response) => {
@@ -52,6 +70,11 @@ function onClick() {
           helloWorldMessage.value = response.data;
         })
 
+}
+
+function formatTimestamp(timestamp: string): string {
+  const date = new Date(timestamp);
+  return date.toLocaleString();
 }
 </script>
 
@@ -138,6 +161,11 @@ input[type="text"] {
 .chat{
   padding: 20px;
   color:#83deb0;
+}
+
+.timestamp {
+  font-size: 0.8em;
+  color: gray;
 }
 </style>
 

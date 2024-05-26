@@ -1,4 +1,5 @@
-export type Message = {
-    userName: string,
-    message: string,
+export interface Message {
+    userName: string;
+    message: string;
+    timestamp: string;
 }
