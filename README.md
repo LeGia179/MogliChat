@@ -24,3 +24,6 @@ und individuelle Profile zu gestalten.
 
 https://moglichat.onrender.com
 https://github.com/LeGia179/MogliChat.git
+
+TODO:
+"/" im Controller genauer beschreiben

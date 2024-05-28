@@ -39,12 +39,14 @@ import axios from "axios";
 let messages: Ref<Message[]> = ref([]);
 //#5 initialisierung der neuen Nachricht
 const newMessage = ref<Message>({ userName: '', message: '' , timestamp: new Date().toISOString() });
+const baseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
+const endpoint = baseUrl + "/chatP2P"
 //#3 Funktion zum Hinzufüren einer neuen Nachricht
 function addNewMessage() {
   const messageToSend = { userName: newMessage.value.userName, message: newMessage.value.message };
-  axios.post('http://localhost:8080/chatP2P', messageToSend)
+  axios.post(endpoint, messageToSend)
       .then(() => {
-        return axios.get('http://localhost:8080/chatP2P');
+        return axios.get(endpoint);
       })
       .then((response) => {
         messages.value = response.data;
