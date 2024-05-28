@@ -9,7 +9,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: RegisterLoginScreen
+      component: ChatView
     },
     {
       path: '/chat',
