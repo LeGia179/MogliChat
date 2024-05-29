@@ -1,6 +1,6 @@
 <template>
   <div class="randomLeiste">
-    <div class="randomBox"> MOGLICHAT
+    <div class="randomBox"> Kanade - "What I can do right now... is to keep composing songs."
   </div>
   </div>
 </template>
@@ -33,6 +33,7 @@
   font-size: 50px;
   align-items: center;
   border: 1px solid #83deb0;
+  font-size: 30px;
 }
 </style>
 

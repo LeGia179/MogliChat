@@ -25,9 +25,10 @@
       </button>
     </div>
   </div>
-
+<!--
   <button  @click="onClick"> Hello World</button>
     <p> {{helloWorldMessage}}</p>
+  -->
 </template>
 <script setup lang="ts">
 import {onMounted, type Ref, ref} from 'vue';
@@ -68,7 +69,7 @@ function addNewMessage() {
 
 /*
 Meilenstein 3
- */
+
 let helloWorldMessage= ref("test")
 
 function onClick() {
@@ -79,7 +80,7 @@ function onClick() {
         })
 
 }
-
+*/
 function formatTimestamp(timestamp: string): string {
   const date = new Date(timestamp);
   return date.toLocaleString();
