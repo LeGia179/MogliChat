@@ -30,7 +30,7 @@
     <p> {{helloWorldMessage}}</p>
 </template>
 <script setup lang="ts">
-import {type Ref, ref} from 'vue';
+import {onMounted, type Ref, ref} from 'vue';
 import type { Message } from '@/model/message';
 import axios from "axios";
 
@@ -41,15 +41,21 @@ let messages: Ref<Message[]> = ref([]);
 const newMessage = ref<Message>({ userName: '', message: '' , timestamp: new Date().toISOString() });
 const baseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
 const endpoint = baseUrl + "/chatP2P"
+//wenn die seite zum erstenmal geladen wird oder bei refresh
+onMounted(() => {
+  axios.get(endpoint).then((response) => {
+    messages.value = response.data;
+    console.log(messages.value)
+  })
+})
+
 //#3 Funktion zum Hinzufüren einer neuen Nachricht
 function addNewMessage() {
-  const messageToSend = { userName: newMessage.value.userName, message: newMessage.value.message };
+  const messageToSend = { userName: newMessage.value.userName, message: newMessage.value.message, timestamp: new Date().toISOString() };
   axios.post(endpoint, messageToSend)
       .then(() => {
-        return axios.get(endpoint);
-      })
-      .then((response) => {
-        messages.value = response.data;
+        //
+        messages.value.push(messageToSend);
         newMessage.value.userName = '';
         newMessage.value.message = '';
       })

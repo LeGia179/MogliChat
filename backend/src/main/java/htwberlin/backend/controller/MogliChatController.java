@@ -28,6 +28,4 @@ public class MogliChatController {
     public ResponseEntity<String> helloWorld() {
         return ResponseEntity.ok("Hello World");
     }
-
-
 }

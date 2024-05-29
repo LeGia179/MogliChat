@@ -27,3 +27,4 @@ https://github.com/LeGia179/MogliChat.git
 
 TODO:
 "/" im Controller genauer beschreiben
+nachrichten redundanz reduzieren
