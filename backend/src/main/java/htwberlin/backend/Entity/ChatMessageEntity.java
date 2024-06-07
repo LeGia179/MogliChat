@@ -1,17 +1,19 @@
 package htwberlin.backend.Entity;
 
-import java.time.LocalDateTime;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 
+import java.time.LocalDateTime;
+@Entity
 public class ChatMessageEntity {
+    @Id
+    private String id;
     private String userName;
     private String message;
     private LocalDateTime timestamp;
 
-    public ChatMessageEntity(String userName, String message, LocalDateTime timestamp) {
-        this.userName = userName;
-        this.message = message;
-        this.timestamp = timestamp;
-    }
+
 
     public String getUserName() {
         return userName;
@@ -31,5 +33,7 @@ public class ChatMessageEntity {
     public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
     }
+    public String getId() {return id;}
+    public void setId(String id) {this.id = id;}
 }
 
