@@ -25,10 +25,7 @@
       </button>
     </div>
   </div>
-<!--
-  <button  @click="onClick"> Hello World</button>
-    <p> {{helloWorldMessage}}</p>
-  -->
+
 </template>
 <script setup lang="ts">
 import {onMounted, type Ref, ref} from 'vue';
@@ -41,12 +38,14 @@ let messages: Ref<Message[]> = ref([]);
 //#5 initialisierung der neuen Nachricht
 const newMessage = ref<Message>({ userName: '', message: '' , timestamp: new Date().toISOString() });
 const baseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
-const endpoint = baseUrl + "/chatP2P"
+const endpoint = baseUrl + "/message"
 //wenn die seite zum erstenmal geladen wird oder bei refresh
 onMounted(() => {
   axios.get(endpoint).then((response) => {
     messages.value = response.data;
     console.log(messages.value)
+  }).catch((error) => {
+    console.error('Error fetching message', error);
   })
 })
 
