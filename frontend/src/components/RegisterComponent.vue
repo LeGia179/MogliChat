@@ -1,10 +1,20 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
+import axios from "axios";
 
 const router = useRouter();
+const baseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
 function anmelden() {
+  axios.post(baseUrl + "/user",{
+    username: "gia",
+    password: "123456",
+    email: "gia@gmail.com"
+  }).then(() => {
+    console.log("user saved");
+  })
   router.push('/chat');
 }
+
 </script>
 
 <template>
@@ -30,7 +40,7 @@ function anmelden() {
       <input type="text" class="passwordbox">
     </div>
     <div class="startseite-rechts-innenbox">
-      <button @click="anmelden" class="loginButton">Anmelden</button>
+      <button @click="anmelden" class="loginButton">Registrieren</button>
       <p>Bereits ein Konto? <router-link to="/login">Login</router-link ></p>
     </div>
   </div>

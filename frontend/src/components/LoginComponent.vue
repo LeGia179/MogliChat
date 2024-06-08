@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
+import axios from "axios";
 
 const router = useRouter();
 function anmelden() {
   router.push('/chat');
 }
+
+
 </script>
 
 <template>
@@ -30,7 +33,8 @@ function anmelden() {
       <input type="text" class="passwordbox">
     </div>
     <div class="startseite-rechts-innenbox">
-      <button @click="anmelden" class="loginButton">Anmelden</button>
+      <button @click="anmelden" class="loginButton" >Anmelden</button>
+
       <p>Noch kein Konto? <router-link to="/register">Registrieren</router-link ></p>
     </div>
   </div>
