@@ -9,7 +9,7 @@ function anmelden() {
 
 <template>
   <div class="startseite-links">
-    <router-link to="/start">
+    <router-link to="/">
       <div class="logo-container">
         <img src="../assets/logo-transparent-png.png" class="logo">
       </div>
