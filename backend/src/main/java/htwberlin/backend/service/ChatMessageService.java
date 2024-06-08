@@ -12,6 +12,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ChatMessageService {
     private final ChatMessageRepository chatMessageRepository;
+
     public void saveChatMessage(String userName, String message) {
         ChatMessageEntity chatMessageEntity = new ChatMessageEntity();
         chatMessageEntity.setUserName(userName);

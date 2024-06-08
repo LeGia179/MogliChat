@@ -4,7 +4,7 @@
     <!-- User Nachrichten
     #2 Rendern der Nachrichten. Hier wird jedes Element in "messages" iteriert um die Nachrichten zu rendern
     -->
-      <div class="chat" v-for="userMessage in messages" :key="userMessage.userName">
+      <div :class="['chat', getMessageSide(userMessage.userName)]" v-for="(userMessage,index) in messages" :key="index">
         <div>
           {{ userMessage.userName }}: {{ userMessage.message }}
         </div>
@@ -64,26 +64,24 @@ function addNewMessage() {
       });
 }
 
-
-
-/*
-Meilenstein 3
-
-let helloWorldMessage= ref("test")
-
-function onClick() {
-  axios.get("http://localhost:8080/mogli")
-        .then((response) => {
-          console.log(response.data);
-          helloWorldMessage.value = response.data;
-        })
-
-}
+/* ideee
+const currentuser = new UserName
+return currentUser == userName ? newMessage.value.userName : newMessage.value.2ndUser
 */
+
 function formatTimestamp(timestamp: string): string {
   const date = new Date(timestamp);
   return date.toLocaleString();
 }
+
+function getMessageSide(userName: string): string {
+  const currentUser = newMessage.value.userName;
+  return currentUser === userName ? 'user-message' : 'other-message';
+}
+
+
+
+
 </script>
 
 <style scoped>
@@ -138,6 +136,16 @@ function formatTimestamp(timestamp: string): string {
   justify-content: space-between;
   margin-right: 5px; /* Abstand zwischen den Eingabefeldern */
   border: 1px solid #83deb0;
+}
+
+.chat.user-message {
+  text-align: right;
+  background-color: greenyellow;
+}
+
+.chat.other-message {
+  text-align: left;
+  background-color: red;
 }
 
 .inputField {
