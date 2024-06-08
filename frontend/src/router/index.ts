@@ -33,7 +33,7 @@ const router = createRouter({
       component: SupportView
     },
     {
-      path: '/start',
+      path: '/',
       name: 'home',
       component: StartView
     },
