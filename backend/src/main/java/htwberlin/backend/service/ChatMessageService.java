@@ -21,5 +21,6 @@ public class ChatMessageService {
         chatMessageEntity.setTimestamp(now);
         chatMessageEntity.setId(UUID.randomUUID().toString());
         chatMessageRepository.save(chatMessageEntity);
+        //chatMessageRepository.deleteAll();
     }
 }

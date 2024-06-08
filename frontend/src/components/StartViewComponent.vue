@@ -9,6 +9,11 @@ function anmelden() {
 function registrieren() {
   router.push('/register');
 }
+
+function addNewUser() {
+  const
+}
+
 </script>
 
 <template>

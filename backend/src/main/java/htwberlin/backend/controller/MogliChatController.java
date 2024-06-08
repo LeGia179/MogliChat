@@ -1,8 +1,10 @@
 package htwberlin.backend.controller;
 
 import htwberlin.backend.Entity.ChatMessageEntity;
+import htwberlin.backend.Entity.UserEntity;
 import htwberlin.backend.repository.ChatMessageRepository;
 import htwberlin.backend.service.ChatMessageService;
+import htwberlin.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +20,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MogliChatController {
     private final ChatMessageService chatMessageService;
+    private final UserService userService;
     @Autowired
     private final ChatMessageRepository chatMessageRepository;
 
     private List<ChatMessageEntity> messages = new ArrayList<>();
+
     @GetMapping("/message")
     public List<ChatMessageEntity> getChatMessageEntity() {
         return chatMessageRepository.findAll();
@@ -31,4 +35,10 @@ public class MogliChatController {
     public void addMessage(@RequestBody ChatMessageEntity message) {
         chatMessageService.saveChatMessage(message.getUserName(), message.getMessage());
     }
+
+    @PostMapping("/user")
+    public void addUser(@RequestBody UserEntity user) {
+        userService.addUser(user.getUsername(), user.getPassword(), user.getEmail());
+    }
+
 }
