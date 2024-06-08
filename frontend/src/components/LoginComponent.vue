@@ -31,7 +31,7 @@ function anmelden() {
     </div>
     <div class="startseite-rechts-innenbox">
       <button @click="anmelden" class="loginButton">Anmelden</button>
-      <p>Noch kein Konto? <a href="/register">Registrieren</a></p>
+      <p>Noch kein Konto? <router-link to="/register">Registrieren</router-link ></p>
     </div>
   </div>
 </template>
