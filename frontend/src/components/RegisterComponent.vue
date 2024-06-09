@@ -11,7 +11,7 @@ const baseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
 
 async function anmelden() {
   try {
-    await axios.post(baseUrl + "/user", {
+    await axios.post(baseUrl + "/register", {
       username: newUser.value.userName,
       password: newUser.value.password,
       email: newUser.value.email,

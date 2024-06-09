@@ -37,13 +37,23 @@ public class MogliChatController {
         chatMessageService.saveChatMessage(message.getUserName(), message.getMessage());
     }
 
-    @PostMapping("/user")
+    @PostMapping("/register")
     public ResponseEntity<?> addUser(@RequestBody UserEntity user) {
         try {
             userService.addUser(user.getUsername(), user.getPassword(), user.getEmail());
             return ResponseEntity.ok().body("User created successfully");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody UserEntity user) {
+        try {
+            UserEntity authenticatedUser = userService.authenticateUser(user.getEmail(), user.getPassword());
+            return ResponseEntity.ok(authenticatedUser);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
     }
 }

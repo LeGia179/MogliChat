@@ -1,6 +1,8 @@
 package htwberlin.backend.service;
 
 import htwberlin.backend.Entity.UserEntity;
+import htwberlin.backend.Exception.IncorrectPasswordException;
+import htwberlin.backend.Exception.UserNotFoundException;
 import htwberlin.backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -30,12 +32,24 @@ public class UserService {
         }
         UserEntity user = new UserEntity();
         user.setUsername(username);
-        user.setPassword(passwordEncoder.encode(password));
+        String hashedPassword = passwordEncoder.encode(password);
+        user.setPassword(hashedPassword);
         user.setEmail(email);
         user.setId(UUID.randomUUID().toString());
+        //userRepository.deleteAll();
         return userRepository.save(user);
         //userRepository.findByEmailContaining("gmail");
+
     }
 
-
+    public UserEntity authenticateUser(String email, String password) {
+        UserEntity user = userRepository.findUserEntityByEmail(email);
+        if (user == null) {
+            throw new UserNotFoundException("Kein Benutzer mit dieser E-Mail-Adresse vorhanden.");
+        }
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new IncorrectPasswordException("Falsches Passwort.");
+        }
+        return user;
+    }
 }

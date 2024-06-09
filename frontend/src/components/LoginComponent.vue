@@ -1,12 +1,35 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 import axios from "axios";
+import {ref} from "vue";
 
 const router = useRouter();
-function anmelden() {
-  router.push('/chat');
-}
+const email = ref('');
+const password = ref('');
+const errorMessage = ref<string | null>(null);
+const baseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
 
+async function anmelden() {
+  try {
+    await axios.post(baseUrl + "/login", {
+      email: email.value,
+      password: password.value
+    });
+    console.log("User authenticated");
+    errorMessage.value = null; // Reset error message on success
+    router.push('/chat');
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      if (error.response.status === 401) {
+        errorMessage.value = error.response.data;
+      } else {
+        errorMessage.value = 'Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.';
+      }
+    } else {
+      errorMessage.value = 'Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.';
+    }
+  }
+}
 
 </script>
 
@@ -26,16 +49,16 @@ function anmelden() {
     <h1>Anmelden</h1>
     <div class="input-group">
       <span class="email-password">Email</span>
-      <input type="text" class="emailbox">
+      <input type="text" v-model="email" class="emailbox">
     </div>
     <div class="input-group">
       <span class="email-password">Passwort</span>
-      <input type="text" class="passwordbox">
+      <input type="password" v-model="password" class="passwordbox">
     </div>
     <div class="startseite-rechts-innenbox">
-      <button @click="anmelden" class="loginButton" >Anmelden</button>
-
-      <p>Noch kein Konto? <router-link to="/register">Registrieren</router-link ></p>
+      <button @click="anmelden" class="loginButton">Anmelden</button>
+      <p>Noch kein Konto? <router-link to="/register">Registrieren</router-link></p>
+      <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
     </div>
   </div>
 </template>
@@ -129,6 +152,11 @@ function anmelden() {
 .startseite-rechts-innenbox p {
   margin-top: 20px;
   font-size: 14px;
+}
+
+.error {
+  color: red;
+  margin-top: 10px;
 }
 </style>
 
