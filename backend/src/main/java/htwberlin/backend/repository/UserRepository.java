@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, String> {
+    UserEntity findUserEntityByEmailAndUsername(String email, String username);
     UserEntity findUserEntityByEmail(String email);
     UserEntity findUserEntityByUsername(String username); // Neue Methode zur Überprüfung des Benutzernamens
 }

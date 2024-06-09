@@ -5,7 +5,6 @@ import { ref } from "vue";
 import type { User } from '@/model/user';
 
 const router = useRouter();
-let users = ref<User[]>([]);
 const newUser = ref<User>({ userName: '', password: '', email: '' });
 const errorMessage = ref<string | null>(null);
 const baseUrl = import.meta.env.VITE_BACKEND_BASE_URL;

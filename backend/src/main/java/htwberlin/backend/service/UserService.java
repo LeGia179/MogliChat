@@ -16,8 +16,12 @@ public class UserService {
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public UserEntity addUser(String username, String password, String email) {
+        UserEntity userByEmailAndUsername = userRepository.findUserEntityByEmailAndUsername(email, username);
         UserEntity userByEmail = userRepository.findUserEntityByEmail(email);
         UserEntity userByUsername = userRepository.findUserEntityByUsername(username);
+        if (userByEmailAndUsername != null) {
+            throw new UserAlreadyExistsException("Ein Benutzer mit dieser E-Mail-Adresse und diesem Benutzernamen existiert bereits.");
+        }
         if (userByEmail != null) {
             throw new UserAlreadyExistsException("Ein Benutzer mit dieser E-Mail-Adresse existiert bereits.");
         }
