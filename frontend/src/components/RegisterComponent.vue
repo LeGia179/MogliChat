@@ -1,16 +1,22 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 import axios from "axios";
+import {type Ref,ref} from "vue";
+import type {User} from '@/model/user';
 
 const router = useRouter();
+let users: Ref<User[]> = ref([]);
+const newUser = ref<User>({userName: '', password: '', email: ''});
 const baseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
 function anmelden() {
   axios.post(baseUrl + "/user",{
-    username: "gia",
-    password: "123456",
-    email: "gia@gmail.com"
+    username: newUser.value.userName,
+    password: newUser.value.password,
+    email: newUser.value.email,
   }).then(() => {
     console.log("user saved");
+    newUser.value.userName = '';
+    newUser.value.password = '';
   })
   router.push('/chat');
 }
@@ -32,12 +38,16 @@ function anmelden() {
   <div class="startseite-rechts">
     <h1>Registrieren</h1>
     <div class="input-group">
+      <span class="username">Benutzername</span>
+      <input type="text" v-model="newUser.userName" class="usernamebox">
+    </div>
+    <div class="input-group">
       <span class="email-password">Email</span>
-      <input type="text" class="emailbox">
+      <input type="text" v-model="newUser.email" class="emailbox">
     </div>
     <div class="input-group">
       <span class="email-password">Passwort</span>
-      <input type="text" class="passwordbox">
+      <input type="text" v-model="newUser.password" class="passwordbox">
     </div>
     <div class="startseite-rechts-innenbox">
       <button @click="anmelden" class="loginButton">Registrieren</button>
