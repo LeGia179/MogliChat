@@ -7,6 +7,7 @@ import htwberlin.backend.service.ChatMessageService;
 import htwberlin.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,8 +38,12 @@ public class MogliChatController {
     }
 
     @PostMapping("/user")
-    public void addUser(@RequestBody UserEntity user) {
-        userService.addUser(user.getUsername(), user.getPassword(), user.getEmail());
+    public ResponseEntity<?> addUser(@RequestBody UserEntity user) {
+        try {
+            userService.addUser(user.getUsername(), user.getPassword(), user.getEmail());
+            return ResponseEntity.ok().body("User created successfully");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        }
     }
-
 }

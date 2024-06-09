@@ -1,26 +1,40 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 import axios from "axios";
-import {type Ref,ref} from "vue";
-import type {User} from '@/model/user';
+import { ref } from "vue";
+import type { User } from '@/model/user';
 
 const router = useRouter();
-let users: Ref<User[]> = ref([]);
-const newUser = ref<User>({userName: '', password: '', email: ''});
+let users = ref<User[]>([]);
+const newUser = ref<User>({ userName: '', password: '', email: '' });
+const errorMessage = ref<string | null>(null);
 const baseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
-function anmelden() {
-  axios.post(baseUrl + "/user",{
-    username: newUser.value.userName,
-    password: newUser.value.password,
-    email: newUser.value.email,
-  }).then(() => {
-    console.log("user saved");
+
+async function anmelden() {
+  try {
+    await axios.post(baseUrl + "/user", {
+      username: newUser.value.userName,
+      password: newUser.value.password,
+      email: newUser.value.email,
+    });
+    console.log("User saved");
     newUser.value.userName = '';
     newUser.value.password = '';
-  })
-  router.push('/chat');
+    newUser.value.email = '';
+    errorMessage.value = null; // Reset error message on success
+    router.push('/chat');
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      if (error.response.status === 409) {
+        errorMessage.value = error.response.data;
+      } else {
+        errorMessage.value = 'Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.';
+      }
+    } else {
+      errorMessage.value = 'Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.';
+    }
+  }
 }
-
 </script>
 
 <template>
@@ -51,12 +65,18 @@ function anmelden() {
     </div>
     <div class="startseite-rechts-innenbox">
       <button @click="anmelden" class="loginButton">Registrieren</button>
-      <p>Bereits ein Konto? <router-link to="/login">Login</router-link ></p>
+      <p>Bereits ein Konto? <router-link to="/login">Login</router-link></p>
+      <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
     </div>
   </div>
 </template>
 
 <style scoped>
+.error {
+  color: red;
+  margin-top: 10px;
+}
+
 .email-password {
   text-align: left;
   margin-right: 10px;
@@ -77,19 +97,19 @@ function anmelden() {
   padding: 30px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* Logo oben rechts ausrichten */
+  align-items: flex-start;
   justify-content: center;
   grid-column-start: 1;
   grid-column-end: 2;
 }
 
 .logo-container {
-  margin-bottom: auto; /* Logo am oberen Rand ausrichten */
+  margin-bottom: auto;
 }
 
 .animation-container {
   display: flex;
-  align-items: center; /* Text mittig ausrichten */
+  align-items: center;
   justify-content: center;
   height: 100%;
 }
@@ -132,7 +152,7 @@ function anmelden() {
   color: #83deb0;
 }
 
-.loginButton{
+.loginButton {
   background-color: #4a536b;
   color: #83deb0;
   height: 5vh;
@@ -147,6 +167,3 @@ function anmelden() {
   font-size: 14px;
 }
 </style>
-
-
-
