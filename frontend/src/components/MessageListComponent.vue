@@ -112,16 +112,20 @@ function getMessageSide(userName: string): string {
 }
 
 .chat.user-message {
-  align-self: flex-end;
+
   background-color: greenyellow;
   text-align: right;
+  margin-left: auto; /* neu */
 }
 
 .chat.other-message {
-  align-self: flex-start;
+
   background-color: red;
   text-align: left;
+  margin-right: auto; /* neu */
 }
+
+
 
 .message-content {
   padding: 10px;
