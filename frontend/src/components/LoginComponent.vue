@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 import axios from "axios";
-import {ref} from "vue";
+import { ref } from "vue";
 
 const router = useRouter();
 const email = ref('');
@@ -11,16 +11,18 @@ const baseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
 
 async function anmelden() {
   try {
-    await axios.post(baseUrl + "/login", {
+    const response = await axios.post(baseUrl + "/login", {
       email: email.value,
       password: password.value
     });
-    console.log("User authenticated");
+    // Benutzerinformationen speichern
+    localStorage.setItem('currentUser', JSON.stringify(response.data));
+    console.log("User authenticated:", response.data);
     errorMessage.value = null; // Reset error message on success
     router.push('/chat');
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
-      if (error.response.status === 401) {
+      if (error.response.status === 401 || error.response.status === 404) {
         errorMessage.value = error.response.data;
       } else {
         errorMessage.value = 'Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.';
@@ -30,7 +32,6 @@ async function anmelden() {
     }
   }
 }
-
 </script>
 
 <template>
