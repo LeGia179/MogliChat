@@ -5,9 +5,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 
 import java.time.LocalDateTime;
-@Entity
+@Entity//speichert die Nachrichten-Daten in einer DB als JPA-Entity
 public class ChatMessageEntity {
-    @Id
+    @Id//marked id als Primärschlüssel
     private String id;
     private String userName;
     private String message;

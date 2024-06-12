@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
+//fängt Exceptions ab und gibt die passende Exception zurück
 public class GlobalExceptionHandler {
     @ExceptionHandler(UserAlreadyExistsException.class)
     public ResponseEntity<String> handleUserAlreadyExistsException(UserAlreadyExistsException e) {

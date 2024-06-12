@@ -15,28 +15,34 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@RestController
-@RequestMapping
-@CrossOrigin(origins = "*")
-@RequiredArgsConstructor
+@RestController  //Deklariert diese Klasse als RestController
+@RequestMapping //legt Basis-URL für diese Klasse fest
+@CrossOrigin(origins = "*") //erlaubt alle CO-Anfragen
+@RequiredArgsConstructor //implementiert Konstruktor für alle finals
 public class MogliChatController {
+    //handled Chatnachrichten
     private final ChatMessageService chatMessageService;
+    //handled User
     private final UserService userService;
-    @Autowired
+    @Autowired //chatMessageRepository bean injection
+    //Zugriff auf Datenbank
     private final ChatMessageRepository chatMessageRepository;
-
+    //Liste für Nachrichten
     private List<ChatMessageEntity> messages = new ArrayList<>();
 
+    //GET-Endpunkt zum Abrufen aller Chat-Nachrichten aus DB
     @GetMapping("/message")
     public List<ChatMessageEntity> getChatMessageEntity() {
         return chatMessageRepository.findAll();
     }
 
+    //POST-Endpunkt zum Hinzufügen einer neuen Nachricht
     @PostMapping("/message")
-    public void addMessage(@RequestBody ChatMessageEntity message) {
+    public void addMessage(@RequestBody ChatMessageEntity message) {//nimmt Daten aus Anfragetext
         chatMessageService.saveChatMessage(message.getUserName(), message.getMessage());
     }
 
+    //POST-Endpunkt zum Registrieren eines neuen Benutzers
     @PostMapping("/register")
     public ResponseEntity<?> addUser(@RequestBody UserEntity user) {
         try {
@@ -47,6 +53,7 @@ public class MogliChatController {
         }
     }
 
+    //POST-Endpunkt zum Anmelden eines Benutzers
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserEntity user) {
         try {

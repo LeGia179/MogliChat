@@ -3,9 +3,9 @@ package htwberlin.backend.Entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
-@Entity
+@Entity//speichert die User-Daten in einer DB als JPA-Entity
 public class UserEntity {
-    @Id
+    @Id//marked id als Primärschlüssel
     private String id;
     private String username;
     private String email;
