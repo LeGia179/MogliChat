@@ -1,14 +1,20 @@
+<!-- Funktion: Benutzerregistrierung -->
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 import axios from "axios";
 import { ref } from "vue";
 import type { User } from '@/model/user';
 
+// Router-Instanz für die Navigation
 const router = useRouter();
+// reaktive Variable
 const newUser = ref<User>({ userName: '', password: '', email: '' });
+// reaktive Variable für Fehlermeldung
 const errorMessage = ref<string | null>(null);
+// Basis-URL für das Backend
 const baseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
 
+// anmelden mit POST-Anfrage
 async function anmelden() {
   try {
     await axios.post(baseUrl + "/register", {
@@ -20,9 +26,10 @@ async function anmelden() {
     newUser.value.userName = '';
     newUser.value.password = '';
     newUser.value.email = '';
-    errorMessage.value = null; // Reset error message on success
+    errorMessage.value = null; // Fehlermeldung resetten bei Erfolg
     router.push('/chat');
   } catch (error) {
+// Fehlerbehandlung bei fehlgeschlagener Registrierung
     if (axios.isAxiosError(error) && error.response) {
       if (error.response.status === 409) {
         errorMessage.value = error.response.data;
@@ -36,7 +43,9 @@ async function anmelden() {
 }
 </script>
 
+<!-- Struktur Registerseite -->
 <template>
+<!-- Linke Startseite mit Logo und Willkommensnachricht -->
   <div class="startseite-links">
     <router-link to="/">
       <div class="logo-container">
@@ -47,7 +56,7 @@ async function anmelden() {
       <p class="animated-text">Willkommen bei MogliChat</p>
     </div>
   </div>
-
+<!-- Rechte Startseite mit Registerformular -->
   <div class="startseite-rechts">
     <h1>Registrieren</h1>
     <div class="input-group">
@@ -70,27 +79,28 @@ async function anmelden() {
   </div>
 </template>
 
+<!-- Styling -->
 <style scoped>
+/* Styling für Fehlermeldungen */
 .error {
   color: red;
   margin-top: 10px;
 }
-
+/* Styling Labels */
 .email-password {
   text-align: left;
   margin-right: 10px;
   align-self: flex-start;
 }
-
+/* Layout Eingabefeld */
 .input-group {
   display: flex;
   flex-direction: column;
 }
-
 .input-group input {
   align-self: stretch;
 }
-
+/* Styling für linke Startseite */
 .startseite-links {
   background-color: #4a536b;
   padding: 30px;
@@ -132,13 +142,13 @@ async function anmelden() {
     opacity: 1;
   }
 }
-
+/* Styling Logo */
 .startseite-links .logo {
   height: 5em;
   width: auto;
   vertical-align: middle;
 }
-
+/* Styling für rechte Startseite */
 .startseite-rechts {
   background-color: #313332;
   display: flex;
@@ -150,7 +160,7 @@ async function anmelden() {
   height: 100vh;
   color: #83deb0;
 }
-
+/* Styling für Registerbutton */
 .loginButton {
   background-color: #4a536b;
   color: #83deb0;

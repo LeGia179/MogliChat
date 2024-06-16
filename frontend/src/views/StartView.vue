@@ -1,14 +1,16 @@
+<!-- Funktion: import StartView -->
 <script setup lang="ts">
 import StartViewComponent from "@/components/StartViewComponent.vue";
-
 </script>
 
+<!-- Struktur Startseite -->
 <template>
   <div class="startseiteUI">
     <StartViewComponent />
   </div>
 </template>
 
+<!-- Styling Startseite -->
 <style scoped>
 .startseiteUI {
   box-sizing: border-box;

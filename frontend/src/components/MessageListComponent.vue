@@ -1,7 +1,9 @@
+<!-- Struktur für Chat, Nachrichtenanzeige, Eingabefeld -->
 <template>
+<!-- Container für Nachrichtenanzeige -->
   <div class="grid-container01">
     <div class="nachrichtenUi">
-      <!-- Nachrichten werden hier gerendert -->
+<!-- Nachrichten werden gerendert -->
       <div v-for="(userMessage, index) in messages" :key="index" :class="['chat', getMessageSide(userMessage.userName)]">
         <div class="message-content">
           {{ userMessage.userName }}: {{ userMessage.message }}
@@ -12,7 +14,7 @@
       </div>
     </div>
   </div>
-
+<!-- Container für das Eingabefeld -->
   <div class="grid-container02">
     <div class="userInput">
       <input type="text" v-model="newMessage.message" placeholder="Message" class="inputField" @keyup.enter="addNewMessage">
@@ -23,6 +25,7 @@
   </div>
 </template>
 
+<!-- Funktion: Senden/Laden von Nachrichten -->
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import type { Message } from '@/model/message';
@@ -79,7 +82,9 @@ function getMessageSide(userName: string): string {
 }
 </script>
 
+<!-- Styling -->
 <style scoped>
+/* Styling Nachrichtenanzeige */
 .grid-container01 {
   display: flex;
   grid-column-start: 3;
@@ -100,7 +105,7 @@ function getMessageSide(userName: string): string {
   border: 1px solid #83deb0;
   padding: 10px;
 }
-
+/* Styling Nachrichten */
 .chat {
   display: flex;
   flex-direction: column;
@@ -110,22 +115,20 @@ function getMessageSide(userName: string): string {
   margin: 10px 0;
   max-width: 70%; /* Maximale Breite der Nachricht */
 }
-
+/* Styling für Nachrichten aktueller Benutzer */
 .chat.user-message {
 
   background-color: greenyellow;
   text-align: right;
-  margin-left: auto; /* neu */
+  margin-left: auto;
 }
-
+/* Styling für Nachrichten anderer Benutzer */
 .chat.other-message {
 
   background-color: red;
   text-align: left;
-  margin-right: auto; /* neu */
+  margin-right: auto;
 }
-
-
 
 .message-content {
   padding: 10px;
@@ -136,7 +139,7 @@ function getMessageSide(userName: string): string {
   color: gray;
   text-align: right;
 }
-
+/* Styling für Eingabefeld */
 .grid-container02 {
   display: flex;
   grid-column-start: 3;

@@ -53,4 +53,15 @@ public class UserService {
         return user;
     }
     //absicherungs Commit and Push
+    public UserEntity findUserByUsername(String username) {
+        UserEntity user = userRepository.findUserEntityByUsername(username);
+        if (user == null) {
+            throw new UserNotFoundException("User not found");
+        }
+        return user;
+    }
+
+    public UserEntity saveUser(UserEntity user) {
+        return userRepository.save(user);
+    }
 }

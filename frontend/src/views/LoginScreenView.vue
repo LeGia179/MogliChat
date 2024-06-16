@@ -1,13 +1,16 @@
+<!-- Funktion: import Login-Komponente -->
 <script setup lang="ts">
 import LoginComponent from "@/components/LoginComponent.vue";
 </script>
 
+<!-- Struktur Login-Screen -->
 <template>
     <div class="LoginScreenUI">
     <LoginComponent />
     </div>
 </template>
 
+<!-- Styling Login-Screen -->
 <style scoped>
 .LoginScreenUI {
   box-sizing: border-box;

@@ -1,28 +1,35 @@
+<!-- Struktur Seitenleiste für Buttons -->
 <template>
 <div class="seitenleiste">
   <div class="seitenleisteBox">
+<!-- Button für das Profil -->
     <button class="settingsButton"> <img src="../assets/profile.png" class="userIcon"> </button>
+<!-- Button für die Einstellungen -->
     <button class="settingsButton2"><img src="../assets/setting.png" class="settingIcon" @click="supportSite"> </button>
+<!-- Button für das Logout -->
     <button class="settingsButton3"> <img src="../assets/logout.png" class="logoutIcon" @click="logout"></button>
   </div>
 </div>
 </template>
 
+<!-- Funktion: Logout -->
 <script setup lang="ts">
 import {useRouter} from 'vue-router'
-
+// Router-Instanz
 const router = useRouter()
+// Navigation zur Support-Seite
 function supportSite() {
   router.push('/support')
 }
- function logout() {
+// Logout und Navigation zur Startseite
+function logout() {
   router.push('/')
 }
 </script>
 
+<!-- Styling -->
 <style scoped>
-
-
+/* Styling Seitenleiste */
 .seitenleiste {
   grid-row-start: 1;
   grid-row-end: 6;
@@ -33,10 +40,9 @@ function supportSite() {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
-
 }
 
+/* Styling Buttons in der Seitenleiste */
 .settingsButton{
   display: flex;
   justify-content: center;
@@ -44,8 +50,6 @@ function supportSite() {
   border: none;
   text-align:center;
   width: 100%;
-
-
 }
 .settingsButton2{
   display: flex;
@@ -54,9 +58,7 @@ function supportSite() {
   border: none;
   text-align:center;
   width: 100%;
-
 }
-
 .settingsButton3{
   display: flex;
   justify-content: center;
@@ -64,6 +66,7 @@ function supportSite() {
   border: none;
   text-align: center;
   width: 100%;
+/* Styling für Icons in Button */
 }.logoutIcon{
   height: 3vh;
 }
@@ -74,6 +77,8 @@ function supportSite() {
   height: 3vh;
 }
 
+
+/* Styling für Containerbox in der Seitenleiste */
 .seitenleisteBox {
   display: flex;
   flex-direction: column;

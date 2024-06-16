@@ -1,16 +1,20 @@
+<!-- Struktur für obere Chatleiste -->
 <template>
+<!-- Container für Leiste: Überschrift -->
   <div class="randomLeiste">
+<!-- Box für Überschrift: Satz -->
     <div class="randomBox"> Kanade - "What I can do right now... is to keep composing songs."
   </div>
   </div>
 </template>
 
+<!-- kann später genutzt werden für Funktionen -->
 <script setup lang="ts">
-
 </script>
+
+<!-- Styling -->
 <style scoped>
-
-
+/* Styling für Leiste */
 .randomLeiste {
   display: flex;
   grid-column-start: 3;
@@ -22,6 +26,7 @@
   align-items: center;
   padding:22px 0 0 0;
 }
+/* Styling für Box */
 .randomBox{
   display: flex;
   height:90%;

@@ -1,3 +1,4 @@
+<!-- Funktion: import, verknüpfen für Navigation -->
 <script setup lang="ts">
 import MessengerListComponent from '@/components/MessageListComponent.vue';
 import {useRouter} from 'vue-router'
@@ -6,14 +7,15 @@ import KontaktListComponent from "@/components/KontaktListComponent.vue";
 import IrgendeineLeisteZumTesten from "@/components/IrgendeineLeisteZumTesten.vue";
 import SupportComponent from '@/components/SupportComponent.vue'
 
+// Router-Instanz
 const router = useRouter();
+// Navigation zur Startseite
 function navigateSite() {
   router.push('/');
 }
-
-
 </script>
 
+<!-- Struktur UI -->
 <template>
   <div class="ui">
     <SeitenleisteComponent></SeitenleisteComponent>
@@ -21,11 +23,9 @@ function navigateSite() {
     <MessengerListComponent message-par=Message[]></MessengerListComponent>
     <irgendeine-leiste-zum-testen></irgendeine-leiste-zum-testen>
   </div>
-
-
 </template>
 
-
+<!-- Styling UI -->
 <style scoped>
 .ui {
   display: grid;
@@ -36,5 +36,4 @@ function navigateSite() {
   margin: 0;
   padding: 0;
 }
-
 </style>

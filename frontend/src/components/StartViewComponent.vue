@@ -1,19 +1,21 @@
+<!-- Funktion: Navigation zur Anmelde- und Registrierungsseite -->
 <script setup lang="ts">
 import { useRouter } from "vue-router";
-
+// Router-Instanz
 const router = useRouter();
+// Navigation zur Anmeldeseite
 function anmelden() {
   router.push('/login');
 }
-
+// Navigation zur Registerseite
 function registrieren() {
   router.push('/register');
 }
-
-
 </script>
 
+<!-- Struktur Startseite -->
 <template>
+  <!-- Linke Startseite mit Logo und Willkommensnachricht -->
   <div class="startseite-links">
     <router-link to="/">
     <div class="logo-container">
@@ -24,7 +26,7 @@ function registrieren() {
       <p class="animated-text">Willkommen bei MogliChat</p>
     </div>
   </div>
-
+  <!-- Rechte Startseite mit Registerformular -->
   <div class="startseite-rechts">
     <h1>Erste Schritte</h1>
     <div class="startseite-rechts-innenbox">
@@ -34,8 +36,9 @@ function registrieren() {
   </div>
 </template>
 
+<!-- Styling -->
 <style scoped>
-
+/* Styling für linke Startseite */
 .startseite-links {
   background-color: #4a536b;
   padding: 30px;
@@ -46,24 +49,21 @@ function registrieren() {
   grid-column-start: 1;
   grid-column-end: 2;
 }
-
 .logo-container {
   margin-bottom: auto; /* Logo am oberen Rand ausrichten */
 }
-
 .animation-container {
   display: flex;
   align-items: center; /* Text mittig ausrichten */
   justify-content: center;
   height: 100%;
 }
-
 .animated-text {
   font-size: 2em;
   color: #83deb0;
   animation: slideIn 3s ease infinite;
 }
-
+/* für .animated-text */
 @keyframes slideIn {
   0% {
     transform: translateY(-100%);
@@ -83,7 +83,7 @@ function registrieren() {
   width: auto;
   vertical-align: middle;
 }
-
+/* Styling für rechte Startseite */
 .startseite-rechts {
   background-color: #313332;
   display: flex;
