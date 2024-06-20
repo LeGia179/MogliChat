@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController  //Deklariert diese Klasse als RestController
-@RequestMapping //legt Basis-URL für diese Klasse fest
+@RequestMapping //legt Basis-URL f端r diese Klasse fest
 @CrossOrigin(origins = "*") //erlaubt alle CO-Anfragen
-@RequiredArgsConstructor //implementiert Konstruktor für alle finals
+@RequiredArgsConstructor //implementiert Konstruktor f端r alle finals
 public class MogliChatController {
     //handled Chatnachrichten
     private final ChatMessageService chatMessageService;
@@ -34,7 +34,7 @@ public class MogliChatController {
     private final ChatChannelRepository chatChannelRepository;
 
     private final ChatChannelService chatChannelService;
-    //Liste für Nachrichten
+    //Liste f端r Nachrichten
     private List<ChatMessageEntity> messages = new ArrayList<>();
 
 
@@ -44,7 +44,7 @@ public class MogliChatController {
         return chatMessageRepository.findAll();
     }
 
-    //POST-Endpunkt zum Hinzufügen einer neuen Nachricht
+    //POST-Endpunkt zum Hinzuf端gen einer neuen Nachricht
     @PostMapping("/message")
     public void addMessage(@RequestBody ChatMessageEntity message) {//nimmt Daten aus Anfragetext
         chatMessageService.saveChatMessage(message.getUserName(), message.getMessage());
@@ -78,9 +78,9 @@ public class MogliChatController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/channel")
-    public ResponseEntity<?> createChannel(@RequestBody ChatChannelEntity chatChannel) {
-        chatChannelService.createChannel(chatChannel.getName());
+    @PostMapping("/channel/{userName}")
+    public ResponseEntity<?> createChannel(@RequestBody ChatChannelEntity chatChannel, @PathVariable("userName") String userName) {
+        chatChannelService.createChannel(chatChannel.getName(), userName);
         return ResponseEntity.status(HttpStatus.CREATED).body("Channel created successfully");
     }
 }
