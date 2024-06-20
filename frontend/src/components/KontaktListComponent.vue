@@ -29,13 +29,21 @@
 <!-- Funktion: Kanal hinzufügen -->
 <script setup lang="ts">
 import { ref } from 'vue';
+import axios from "axios";
 
 // Channel Liste initialisieren mit Bsp
 const channels = ref(['Channel 1', 'Channel 2', 'Channel 3']);
 // Variable für neuen Channel
 const newChannelName = ref('');
+const baseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
 // Methode zum Hinzufügen eines neuen Kanals
-const addChannel = () => {
+async function addChannel () {
+  try {
+    await axios.post(baseUrl + "/channel", {
+      name: newChannelName.value,
+    });}catch (error) {
+    console.log(error);
+    }
   console.log('addChannel aufgerufen');
   console.log('neuer Kanalname:', newChannelName.value);
 // Überprüft, ob Channel nicht leer ist
@@ -46,7 +54,7 @@ const addChannel = () => {
   } else {
     console.log('Kanalname ist leer oder nur Leerzeichen');
   }
-};
+  }
 </script>
 
 <!-- Styling -->
