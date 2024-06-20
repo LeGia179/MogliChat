@@ -63,4 +63,10 @@ public class MogliChatController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
     }
+
+    @DeleteMapping("/messages")
+    public ResponseEntity<?> deleteChatMessage() {
+        chatMessageRepository.deleteAll();
+        return ResponseEntity.noContent().build();
+    }
 }
