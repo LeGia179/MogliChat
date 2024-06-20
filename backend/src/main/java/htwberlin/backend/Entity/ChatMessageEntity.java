@@ -1,10 +1,11 @@
 package htwberlin.backend.Entity;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 
 import java.time.LocalDateTime;
+
 @Entity//speichert die Nachrichten-Daten in einer DB als JPA-Entity
 public class ChatMessageEntity {
     @Id//marked id als Primärschlüssel
@@ -12,6 +13,8 @@ public class ChatMessageEntity {
     private String userName;
     private String message;
     private LocalDateTime timestamp;
+    @ManyToOne()
+    private ChatChannelEntity channel;
 
 
 
@@ -35,5 +38,13 @@ public class ChatMessageEntity {
     }
     public String getId() {return id;}
     public void setId(String id) {this.id = id;}
+
+    public ChatChannelEntity getChannel() {
+        return channel;
+    }
+
+    public void setChannel(ChatChannelEntity channel) {
+        this.channel = channel;
+    }
 }
 

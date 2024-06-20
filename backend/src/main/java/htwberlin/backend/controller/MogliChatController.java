@@ -1,8 +1,11 @@
 package htwberlin.backend.controller;
 
+import htwberlin.backend.Entity.ChatChannelEntity;
 import htwberlin.backend.Entity.ChatMessageEntity;
 import htwberlin.backend.Entity.UserEntity;
+import htwberlin.backend.repository.ChatChannelRepository;
 import htwberlin.backend.repository.ChatMessageRepository;
+import htwberlin.backend.service.ChatChannelService;
 import htwberlin.backend.service.ChatMessageService;
 import htwberlin.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +30,13 @@ public class MogliChatController {
     @Autowired //chatMessageRepository bean injection
     //Zugriff auf Datenbank
     private final ChatMessageRepository chatMessageRepository;
+
+    private final ChatChannelRepository chatChannelRepository;
+
+    private final ChatChannelService chatChannelService;
     //Liste für Nachrichten
     private List<ChatMessageEntity> messages = new ArrayList<>();
+
 
     //GET-Endpunkt zum Abrufen aller Chat-Nachrichten aus DB
     @GetMapping("/message")
@@ -68,5 +76,11 @@ public class MogliChatController {
     public ResponseEntity<?> deleteChatMessage() {
         chatMessageRepository.deleteAll();
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/channel")
+    public ResponseEntity<?> createChannel(@RequestBody ChatChannelEntity chatChannel) {
+        chatChannelService.createChannel(chatChannel.getName());
+        return ResponseEntity.status(HttpStatus.CREATED).body("Channel created successfully");
     }
 }
