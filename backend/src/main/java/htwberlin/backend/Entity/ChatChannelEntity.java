@@ -2,6 +2,7 @@ package htwberlin.backend.Entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 
 import java.util.List;
@@ -13,6 +14,10 @@ public class ChatChannelEntity {
     private String name;
     @OneToMany()
     private List<ChatMessageEntity> messages;
+
+    @ManyToMany
+    private List<UserEntity> users;
+
     // Getter und Setter
 
     public String getId() {
@@ -37,5 +42,13 @@ public class ChatChannelEntity {
 
     public void setMessages(List<ChatMessageEntity> messages) {
         this.messages = messages;
+    }
+
+    public List<UserEntity> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<UserEntity> users) {
+        this.users = users;
     }
 }

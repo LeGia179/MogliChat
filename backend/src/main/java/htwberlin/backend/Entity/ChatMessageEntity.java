@@ -1,8 +1,6 @@
 package htwberlin.backend.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
@@ -15,6 +13,9 @@ public class ChatMessageEntity {
     private LocalDateTime timestamp;
     @ManyToOne()
     private ChatChannelEntity channel;
+
+    @ManyToOne
+    private UserEntity user;
 
 
 
@@ -46,5 +47,12 @@ public class ChatMessageEntity {
     public void setChannel(ChatChannelEntity channel) {
         this.channel = channel;
     }
-}
 
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
+    }
+}
