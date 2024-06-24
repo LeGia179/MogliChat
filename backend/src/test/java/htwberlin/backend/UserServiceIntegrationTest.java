@@ -29,11 +29,11 @@ public class UserServiceIntegrationTest {
     Hier wird ein user addUser hinzugefügt
     asserEquals prüft die Eingabe, ob sie existiert.
      */
-    public void testAddUser_Success() {
-        UserEntity user = userService.addUser("newuser", "newpassword", "newuser@example.com");
+    public void testAddUser() {
+        UserEntity user = userService.addUser("newuser", "password", "newuser@gmail.com");
         assertNotNull(user.getId());
         assertEquals("newuser", user.getUsername());
-        assertEquals("newuser@example.com", user.getEmail());
+        assertEquals("newuser@gmail.com", user.getEmail());
     }
 
     /*
@@ -41,37 +41,37 @@ public class UserServiceIntegrationTest {
      */
     @Test
     public void testAddUser_UserAlreadyExistsByEmail() {
-        userService.addUser("testuser", "password123", "test@example.com");
+        userService.addUser("testuser", "password123", "test@gmail.com");
 
         assertThrows(UserAlreadyExistsException.class, () -> {
-            userService.addUser("anotheruser", "password123", "test@example.com");
+            userService.addUser("testuser2", "password123", "test@gmail.com");
         });
     }
 
     @Test
-    public void testAuthenticateUser_Success() {
-        userService.addUser("testuser", "password123", "test@example.com");
-        UserEntity user = userService.authenticateUser("test@example.com", "password123");
+    public void testAuthenticateUser() {
+        userService.addUser("testuser", "password123", "test@gmail.com");
+        UserEntity user = userService.authenticateUser("test@gmail.com", "password123");
         assertNotNull(user);
     }
 
     @Test
     public void testAuthenticateUser_UserNotFound() {
         assertThrows(UserNotFoundException.class, () -> {
-            userService.authenticateUser("nonexistent@example.com", "password123");
+            userService.authenticateUser("nonexistent@gmail.com", "password123");
         });
     }
 
     @Test
     public void testFindUserByUsername_UserNotFound() {
         assertThrows(UserNotFoundException.class, () -> {
-            userService.findUserByUsername("nonexistentuser");
+            userService.findUserByUsername("noUser");
         });
     }
 
     @Test
-    public void testFindUserByUsername_Success() {
-        userService.addUser("testuser", "password123", "test@example.com");
+    public void testFindUserByUsername() {
+        userService.addUser("testuser", "password123", "test@gmail.com");
         UserEntity user = userService.findUserByUsername("testuser");
         assertNotNull(user);
         assertEquals("testuser", user.getUsername());

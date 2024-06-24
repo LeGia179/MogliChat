@@ -1,11 +1,8 @@
 package htwberlin.backend.controller;
 
-import htwberlin.backend.Entity.ChatChannelEntity;
 import htwberlin.backend.Entity.ChatMessageEntity;
 import htwberlin.backend.Entity.UserEntity;
-import htwberlin.backend.repository.ChatChannelRepository;
 import htwberlin.backend.repository.ChatMessageRepository;
-import htwberlin.backend.service.ChatChannelService;
 import htwberlin.backend.service.ChatMessageService;
 import htwberlin.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,12 +27,8 @@ public class MogliChatController {
     //Zugriff auf Datenbank
     private final ChatMessageRepository chatMessageRepository;
 
-    private final ChatChannelRepository chatChannelRepository;
-
-    private final ChatChannelService chatChannelService;
     //Liste f端r Nachrichten
     private List<ChatMessageEntity> messages = new ArrayList<>();
-
 
     //GET-Endpunkt zum Abrufen aller Chat-Nachrichten aus DB
     @GetMapping("/message")
@@ -72,15 +64,4 @@ public class MogliChatController {
         }
     }
 
-    @DeleteMapping("/messages")
-    public ResponseEntity<?> deleteChatMessage() {
-        chatMessageRepository.deleteAll();
-        return ResponseEntity.noContent().build();
-    }
-
-    @PostMapping("/channel/{userName}")
-    public ResponseEntity<?> createChannel(@RequestBody ChatChannelEntity chatChannel, @PathVariable("userName") String userName) {
-        chatChannelService.createChannel(chatChannel.getName(), userName);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Channel created successfully");
-    }
 }

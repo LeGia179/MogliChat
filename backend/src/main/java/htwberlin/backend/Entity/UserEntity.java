@@ -1,8 +1,7 @@
 package htwberlin.backend.Entity;
 
-import jakarta.persistence.*;
-
-import java.util.List;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
 @Entity//speichert die User-Daten in einer DB als JPA-Entity
 public class UserEntity {
@@ -11,13 +10,6 @@ public class UserEntity {
     private String username;
     private String email;
     private String password;
-
-    @ManyToMany
-    private List<ChatChannelEntity> channel;
-
-    @OneToMany
-    private List<ChatMessageEntity> message;
-
 
     public String getId() {
         return id;
@@ -49,13 +41,5 @@ public class UserEntity {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public List<ChatChannelEntity> getChannel() {
-        return channel;
-    }
-
-    public void setChannel(List<ChatChannelEntity> channel) {
-        this.channel = channel;
     }
 }
