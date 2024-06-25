@@ -1,6 +1,7 @@
 const express = require('express');
 const http = require('http');
 const WebSocket = require('ws');
+const axios = require('axios');
 const path = require('path');
 const app = express();
 
@@ -18,17 +19,29 @@ wss.on('connection', (ws) => {
 
     ws.on('message', (message) => {
         console.log(`Message received: ${message}`);
+
         // Broadcast the message to all other connected users
         activeUsers.forEach((user) => {
             if (user !== ws && user.readyState === WebSocket.OPEN) {
                 user.send(message);
             }
         });
+
+        // Parse the message and send it to the backend for storage
+        const parsedMessage = JSON.parse(message);
+        console.log(`Parsed message: ${JSON.stringify(parsedMessage)}`);
+
+        axios.post('http://localhost:8080/api/message', parsedMessage)
+          .then(response => {
+              console.log('Message stored in database');
+          })
+          .catch(error => {
+              console.error('Error storing message in database:', error.response ? error.response.data : error.message);
+          });
     });
 
     ws.on('close', () => {
         console.log('A user disconnected');
-        // Remove the user from the activeUsers array
         const index = activeUsers.indexOf(ws);
         if (index !== -1) {
             activeUsers.splice(index, 1);

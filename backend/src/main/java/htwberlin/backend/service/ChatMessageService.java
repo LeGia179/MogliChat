@@ -23,4 +23,15 @@ public class ChatMessageService {
         chatMessageRepository.save(chatMessageEntity);
         //chatMessageRepository.deleteAll();
     }
+
+    //speichert eine Chatnachricht, die als ChatMessageEntity übergeben wird
+    public void saveMessage(ChatMessageEntity chatMessageEntity) {
+        if (chatMessageEntity.getId() == null) {
+            chatMessageEntity.setId(UUID.randomUUID().toString());
+        }
+        if (chatMessageEntity.getTimestamp() == null) {
+            chatMessageEntity.setTimestamp(LocalDateTime.now());
+        }
+        chatMessageRepository.save(chatMessageEntity);
+    }
 }

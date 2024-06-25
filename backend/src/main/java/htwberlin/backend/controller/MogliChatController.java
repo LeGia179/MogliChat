@@ -38,8 +38,9 @@ public class MogliChatController {
 
     //POST-Endpunkt zum Hinzuf端gen einer neuen Nachricht
     @PostMapping("/message")
-    public void addMessage(@RequestBody ChatMessageEntity message) {//nimmt Daten aus Anfragetext
+    public ResponseEntity<ChatMessageEntity> addMessage(@RequestBody ChatMessageEntity message) {
         chatMessageService.saveChatMessage(message.getUserName(), message.getMessage());
+        return ResponseEntity.status(HttpStatus.CREATED).body(message);
     }
 
     //POST-Endpunkt zum Registrieren eines neuen Benutzers

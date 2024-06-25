@@ -6,6 +6,7 @@ import SeitenleisteComponent from "@/components/SeitenleisteComponent.vue"
 import KontaktListComponent from "@/components/KontaktListComponent.vue";
 import IrgendeineLeisteZumTesten from "@/components/IrgendeineLeisteZumTesten.vue";
 import SupportComponent from '@/components/SupportComponent.vue'
+import { ref } from 'vue'
 
 // Router-Instanz
 const router = useRouter();
@@ -13,6 +14,7 @@ const router = useRouter();
 function navigateSite() {
   router.push('/');
 }
+const messages = ref([]);
 </script>
 
 <!-- Struktur UI -->
@@ -20,7 +22,7 @@ function navigateSite() {
   <div class="ui">
     <SeitenleisteComponent></SeitenleisteComponent>
     <KontaktListComponent></KontaktListComponent>
-    <MessengerListComponent message-par=Message[]></MessengerListComponent>
+    <MessengerListComponent :messages="messages"></MessengerListComponent>
     <irgendeine-leiste-zum-testen></irgendeine-leiste-zum-testen>
   </div>
 </template>
