@@ -29,7 +29,7 @@ wss.on('connection', (ws) => {
         const parsedMessage = JSON.parse(message);
         console.log(`Parsed message: ${JSON.stringify(parsedMessage)}`);
 
-        axios.post('https://moglichatbackend-cbuw.onrender.com/message', parsedMessage)
+        axios.post('https://moglichat-odov.onrender.com/message', parsedMessage)
             .then(response => {
                 console.log('Message stored in database');
             })
