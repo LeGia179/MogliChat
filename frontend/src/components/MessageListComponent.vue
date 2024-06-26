@@ -93,6 +93,7 @@ function initWebSocket() {
     setTimeout(() => {
       console.log('Reconnecting...');
       initWebSocket();
+
     }, 1000); // 1 Sekunde warten, bevor eine erneute Verbindung versucht wird
   };
 
