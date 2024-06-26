@@ -1,20 +1,16 @@
 const express = require('express');
-const https = require('https');
+const http = require('http');
 const WebSocket = require('ws');
 const axios = require('axios');
 const path = require('path');
-const fs = require('fs');
 const app = express();
 
 app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
-const server = https.createServer({
-    cert: fs.readFileSync('/path/to/fullchain.pem'),
-    key: fs.readFileSync('/path/to/privkey.pem')
-}, app);
+const server = http.createServer(app);
 
 const wss = new WebSocket.Server({ server, path: '/ws' });
-//hallo
+
 const activeUsers = [];
 
 wss.on('connection', (ws) => {
@@ -55,7 +51,7 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/dist', 'index.html'));
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 server.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);
 });
