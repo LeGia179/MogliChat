@@ -16,7 +16,9 @@ jobs:
       with:
         java-version: '21'
         distribution: 'adopt'
-    - name: run backend test
+    - name: permissions for Gradle
+      run: chmod +x ./gradlew
+    - name: Run backend test
       run: ./gradlew test
 
   build-and-test-frontend:
@@ -24,22 +26,22 @@ jobs:
     needs: build-and-test-backend
     steps:
     - uses: actions/checkout@v3  
-    - name: setup Node.js
+    - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
         node-version: '20' 
     - name: Install dependencies
       run: npm install
-    - name: cache cypress binary
+    - name: Cache Cypress binary
       uses: actions/cache@v3  
       with:
         path: ~/.cache/Cypress
         key: ${{ runner.os }}-cypress-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-cypress-
-    - name: run cypress test
+    - name: Run Cypress test
       run: npx cypress run
-    - name: build frontend
+    - name: Build frontend
       run: npm run build
 
   deploy:
@@ -49,5 +51,5 @@ jobs:
     
     steps:
     - uses: actions/checkout@v3 
-    - name: deploy to production
+    - name: Deploy to production
       run: echo "TEST"
