@@ -76,11 +76,16 @@ function initWebSocket() {
   };
 
   ws.onmessage = (event) => {
-    const message: Message = JSON.parse(event.data);
-    console.log('Message received from server:', message);
-    messages.value = [...messages.value, message];
-    console.log('Updated messages:', messages.value);
+    const reader = new FileReader();
+    reader.onload = function() {
+      const message = JSON.parse(reader.result as string);
+      console.log('Message received from server:', message);
+      messages.value.push(message);
+      console.log('Updated messages:', messages.value);
+    };
+    reader.readAsText(event.data);
   };
+
 
   ws.onclose = () => {
     console.log('WebSocket connection closed');
