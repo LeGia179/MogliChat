@@ -43,7 +43,7 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-cypress-
     - name: Run Cypress test
-      run: npx cypress run
+      run: npm run test:e2e
       working-directory: ./frontend
     - name: Build frontend
       run: npm run build
