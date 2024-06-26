@@ -5,7 +5,6 @@ const axios = require('axios');
 const path = require('path');
 const app = express();
 
-// Serve static files from the Vue frontend
 app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
 const server = http.createServer(app);
@@ -20,24 +19,22 @@ wss.on('connection', (ws) => {
     ws.on('message', (message) => {
         console.log(`Message received: ${message}`);
 
-        // Broadcast the message to all other connected users
         activeUsers.forEach((user) => {
             if (user !== ws && user.readyState === WebSocket.OPEN) {
                 user.send(message);
             }
         });
 
-        // Parse the message and send it to the backend for storage
         const parsedMessage = JSON.parse(message);
         console.log(`Parsed message: ${JSON.stringify(parsedMessage)}`);
 
-        axios.post('https://moglichat-odov.onrender.com/message', parsedMessage)
-          .then(response => {
-              console.log('Message stored in database');
-          })
-          .catch(error => {
-              console.error('Error storing message in database:', error.response ? error.response.data : error.message);
-          });
+        axios.post('https://moglichatbackend-cbuw.onrender.com/message', parsedMessage)
+            .then(response => {
+                console.log('Message stored in database');
+            })
+            .catch(error => {
+                console.error('Error storing message in database:', error.response ? error.response.data : error.message);
+            });
     });
 
     ws.on('close', () => {
@@ -49,7 +46,6 @@ wss.on('connection', (ws) => {
     });
 });
 
-// Serve the main HTML file for the Vue app
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/dist', 'index.html'));
 });
