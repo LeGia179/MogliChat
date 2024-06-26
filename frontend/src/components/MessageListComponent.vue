@@ -87,8 +87,13 @@ function initWebSocket() {
   };
 
 
-  ws.onclose = () => {
-    console.log('WebSocket connection closed');
+  ws.onclose = (event) => {
+    console.log('WebSocket connection closed', event);
+    // Versuchen Sie, die Verbindung nach einer bestimmten Zeit wiederherzustellen
+    setTimeout(() => {
+      console.log('Reconnecting...');
+      initWebSocket();
+    }, 1000); // 1 Sekunde warten, bevor eine erneute Verbindung versucht wird
   };
 
   ws.onerror = (error) => {
