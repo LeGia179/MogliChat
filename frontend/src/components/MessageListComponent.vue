@@ -94,7 +94,7 @@ function initWebSocket() {
       console.log('Reconnecting...');
       initWebSocket();
 
-    }, 1000); // 1 Sekunde warten, bevor eine erneute Verbindung versucht wird
+    }, 10000); // 1 Sekunde warten, bevor eine erneute Verbindung versucht wird
   };
 
   ws.onerror = (error) => {
