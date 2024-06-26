@@ -1,18 +1,23 @@
 const express = require('express');
-const http = require('http');
+const https = require('https');
 const WebSocket = require('ws');
 const axios = require('axios');
 const path = require('path');
+const fs = require('fs');
 const app = express();
 
 app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
-const server = http.createServer(app);
-const wss = new WebSocket.Server({ server });
+// Pfade zu Ihren Zertifikatsdateien
+const server = https.createServer({
+    cert: fs.readFileSync('/path/to/fullchain.pem'),
+    key: fs.readFileSync('/path/to/privkey.pem')
+}, app);
+
+// WebSocket-Server initialisieren
+const wss = new WebSocket.Server({ server, path: '/ws' });
 
 const activeUsers = [];
-
-
 
 wss.on('connection', (ws) => {
     activeUsers.push(ws);
