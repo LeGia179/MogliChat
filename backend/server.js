@@ -11,10 +11,7 @@ const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
 const activeUsers = [];
-const server = https.createServer({
-    cert: fs.readFileSync('/path/to/fullchain.pem'),
-    key: fs.readFileSync('/path/to/privkey.pem')
-}, app);
+
 
 
 wss.on('connection', (ws) => {

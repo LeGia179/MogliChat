@@ -69,7 +69,7 @@ onUnmounted(() => {
 });
 
 function initWebSocket() {
-  ws = new WebSocket('wss://moglichat-odov.onrender.com/ws');
+  ws = new WebSocket('wss://moglichat-odov.onrender.com/chat');
 
   ws.onopen = () => {
     console.log('WebSocket connection established');
