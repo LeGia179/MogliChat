@@ -22,21 +22,21 @@
 </template>
 
 <script setup lang="ts">
-import { watch,defineProps,onMounted, ref, onUnmounted } from 'vue';
+import { ref, watch, onMounted, onUnmounted } from 'vue';
 import type { Message } from '@/model/message';
+import axios from "axios";
 
-//Props definieren
-const props =defineProps({
+const props = defineProps({
   messages: {
     type: Array as () => Message[],
     required: true,
   }
 });
 
-// beobachtet Props und aktualisiert die lokale Variable wenn sie sich ändert
-let messages = ref<Message[]>(props.messages);
+const messages = ref<Message[]>(props.messages);
+
 watch(() => props.messages, (newMessages) => {
-  messages.value = newMessages;
+  messages.value = [...newMessages];
 });
 
 const newMessage = ref<Message>({ userName: '', message: '', timestamp: new Date().toISOString() });
@@ -45,7 +45,20 @@ const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
 
 let ws: WebSocket | null = null;
 
+// Basis-URL für das Backend
+const baseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
+const endpoint = baseUrl + "/message";
+
 onMounted(() => {
+  // Nachrichten vom Server laden
+  axios.get(endpoint).then((response) => {
+    console.log('Fetched messages from server:', response.data);
+    messages.value = response.data;
+  }).catch((error) => {
+    console.error('Error fetching messages', error);
+  });
+
+  // Initialisieren der WebSocket-Verbindung
   initWebSocket();
 });
 
@@ -63,9 +76,10 @@ function initWebSocket() {
   };
 
   ws.onmessage = (event) => {
-    const message = JSON.parse(event.data);
-    console.log('Message received from server:', message); // Debugging
-    messages.value.push(message);
+    const message: Message = JSON.parse(event.data);
+    console.log('Message received from server:', message);
+    messages.value = [...messages.value, message];
+    console.log('Updated messages:', messages.value);
   };
 
   ws.onclose = () => {
@@ -86,7 +100,18 @@ function addNewMessage() {
   if (ws && ws.readyState === WebSocket.OPEN) {
     console.log('Sending message to server:', messageToSend);
     ws.send(JSON.stringify(messageToSend));
-    newMessage.value.message = '';
+    console.log('Message sent to WebSocket server:', messageToSend);
+
+    // Nachricht auch per HTTP-POST senden
+    axios.post(endpoint, messageToSend)
+        .then(() => {
+          console.log('Message sent to server via HTTP:', messageToSend);
+          messages.value.push(messageToSend);
+          newMessage.value.message = '';
+        })
+        .catch((error) => {
+          console.error('Error sending message via HTTP:', error);
+        });
   } else {
     console.error('WebSocket is not open');
   }
