@@ -16,10 +16,6 @@ jobs:
       with:
         java-version: '17'
         distribution: 'adopt'
-    - name: permission for gradle
-      run: chmod +x ./gradlew
-    - name: build and test with gradle
-      run: ./gradlew build
     - name: run backend test
       run: ./gradlew test
 
