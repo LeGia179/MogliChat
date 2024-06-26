@@ -69,7 +69,7 @@ onUnmounted(() => {
 });
 
 function initWebSocket() {
-  ws = new WebSocket('ws://localhost:3000/ws');
+  ws = new WebSocket('ws:https://moglichatbackend-cbuw.onrender.com/ws');
 
   ws.onopen = () => {
     console.log('WebSocket connection established');
