@@ -1,0 +1,60 @@
+name: CICD-TEST
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test-backend:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4  
+    - name: Set up JDK 21
+      uses: actions/setup-java@v4  
+      with:
+        java-version: '21'
+        distribution: 'adopt'
+    - name: Set executable permissions for Gradle Wrapper
+      run: chmod +x ./gradlew
+      working-directory: ./backend
+    - name: Run backend tests
+      run: ./gradlew test
+      working-directory: ./backend
+
+  build-and-test-frontend:
+    runs-on: ubuntu-latest
+    needs: build-and-test-backend
+    steps:
+    - uses: actions/checkout@v4  
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20' 
+    - name: Install dependencies
+      run: npm install
+      working-directory: ./frontend
+    - name: Cache Cypress binary
+      uses: actions/cache@v4  
+      with:
+        path: ~/.cache/Cypress
+        key: ${{ runner.os }}-cypress-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-cypress-
+    - name: Run Cypress test
+      run: npm run test:e2e
+      working-directory: ./frontend
+    - name: Build frontend
+      run: npm run build
+      working-directory: ./frontend
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [build-and-test-backend, build-and-test-frontend]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    steps:
+    - uses: actions/checkout@v4 
+    - name: Deploy to production
+      run: echo "TEST"
