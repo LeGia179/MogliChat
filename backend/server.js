@@ -14,7 +14,7 @@ const server = https.createServer({
 }, app);
 
 const wss = new WebSocket.Server({ server, path: '/ws' });
-
+//hallo
 const activeUsers = [];
 
 wss.on('connection', (ws) => {
