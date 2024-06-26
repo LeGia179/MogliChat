@@ -16,6 +16,8 @@ jobs:
       with:
         java-version: '21'
         distribution: 'adopt'
+    - name: Change directory to backend
+      run: cd backend
     - name: permissions for Gradle
       run: chmod +x ./gradlew
     - name: Run backend test
