@@ -8,13 +8,11 @@ const app = express();
 
 app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
-// Pfade zu Ihren Zertifikatsdateien
 const server = https.createServer({
     cert: fs.readFileSync('/path/to/fullchain.pem'),
     key: fs.readFileSync('/path/to/privkey.pem')
 }, app);
 
-// WebSocket-Server initialisieren
 const wss = new WebSocket.Server({ server, path: '/ws' });
 
 const activeUsers = [];

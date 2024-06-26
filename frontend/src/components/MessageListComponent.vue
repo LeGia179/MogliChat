@@ -69,7 +69,7 @@ onUnmounted(() => {
 });
 
 function initWebSocket() {
-  ws = new WebSocket('wss://moglichat-odov.onrender.com/ws');
+  ws = new WebSocket('wss://moglichatbackend-cbuw.onrender.com/ws');
 
   ws.onopen = () => {
     console.log('WebSocket connection established');
@@ -86,21 +86,19 @@ function initWebSocket() {
     reader.readAsText(event.data);
   };
 
-
   ws.onclose = (event) => {
     console.log('WebSocket connection closed', event);
-    // Versuchen Sie, die Verbindung nach einer bestimmten Zeit wiederherzustellen
     setTimeout(() => {
       console.log('Reconnecting...');
       initWebSocket();
-
-    }, 10000); // 1 Sekunde warten, bevor eine erneute Verbindung versucht wird
+    }, 10000); // 10 Sekunden warten, bevor eine erneute Verbindung versucht wird
   };
 
   ws.onerror = (error) => {
     console.error('WebSocket error:', error);
   };
 }
+
 
 function addNewMessage() {
   if (!currentUser || !currentUser.username) {
