@@ -1,11 +1,12 @@
-// Laden Sie die Umgebungsvariablen aus der .env-Datei
-require('dotenv').config();
-
 const express = require('express');
 const http = require('http');
 const WebSocket = require('ws');
 const axios = require('axios');
 const path = require('path');
+const dotenv = require('dotenv');
+
+dotenv.config();
+
 const app = express();
 
 app.use(express.static(path.join(__dirname, '../frontend/dist')));
@@ -15,20 +16,29 @@ const server = http.createServer(app);
 const wss = new WebSocket.Server({ server, path: '/ws' });
 
 const activeUsers = [];
+const userConnections = {}; // Speichert die WebSocket-Verbindungen der Benutzer
 const baseUrl = process.env.VITE_BACKEND_BASE_URL;
 const endpoint = baseUrl + "/message";
 
-wss.on('connection', (ws) => {
-    activeUsers.push(ws);
-    console.log('A user connected');
+wss.on('connection', (ws, req) => {
+    const params = new URLSearchParams(req.url.split('?')[1]);
+    const username = params.get('username');
+
+    if (username) {
+        userConnections[username] = ws;
+        activeUsers.push({ username, ws });
+        console.log(`${username} connected`);
+    }
+
+    console.log(`Active users: ${activeUsers.length}`);
 
     ws.on('message', (message) => {
         console.log(`Message received: ${message}`);
 
         activeUsers.forEach((user) => {
-            if (user !== ws && user.readyState === WebSocket.OPEN) {
-                user.send(message);
-                console.log(`Message sent to user: ${user}`);
+            if (user.ws !== ws && user.ws.readyState === WebSocket.OPEN) {
+                user.ws.send(message);
+                console.log(`Message sent to user: ${user.username}`);
             }
         });
 
@@ -45,11 +55,13 @@ wss.on('connection', (ws) => {
     });
 
     ws.on('close', () => {
-        console.log('A user disconnected');
-        const index = activeUsers.indexOf(ws);
+        console.log(`${username} disconnected`);
+        const index = activeUsers.findIndex(user => user.username === username);
         if (index !== -1) {
             activeUsers.splice(index, 1);
         }
+        delete userConnections[username];
+        console.log(`Active users after disconnection: ${activeUsers.length}`);
     });
 
     ws.on('error', (error) => {
