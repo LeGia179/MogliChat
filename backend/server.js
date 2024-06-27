@@ -23,7 +23,7 @@ wss.on('connection', (ws) => {
         console.log(`Message received: ${message}`);
 
         activeUsers.forEach((user) => {
-            if (user !== ws && user.readyState === WebSocket.OPEN) {
+            if (user.readyState === WebSocket.OPEN) {
                 user.send(message);
             }
         });
