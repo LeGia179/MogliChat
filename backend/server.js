@@ -3,11 +3,6 @@ const http = require('http');
 const WebSocket = require('ws');
 const axios = require('axios');
 const path = require('path');
-const dotenv = require('dotenv');
-
-// Laden der Umgebungsvariablen aus der entsprechenden .env Datei
-dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
-
 const app = express();
 
 app.use(express.static(path.join(__dirname, '../frontend/dist')));
