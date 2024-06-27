@@ -8,11 +8,10 @@ const app = express();
 app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
 const server = http.createServer(app);
-
 const wss = new WebSocket.Server({ server, path: '/ws' });
 
 const activeUsers = [];
-const baseUrl = process.env.VITE_BACKEND_BASE_URL || 'https://moglichatbackend-cbuw.onrender.com'; // Ensure there's a default value
+const baseUrl = process.env.VITE_BACKEND_BASE_URL || 'http://localhost:8080';
 const endpoint = `${baseUrl}/message`;
 
 wss.on('connection', (ws) => {
@@ -22,29 +21,23 @@ wss.on('connection', (ws) => {
     ws.on('message', (message) => {
         console.log(`Message received: ${message}`);
 
-        try {
-            const parsedMessage = JSON.parse(message);
-            console.log(`Parsed message: ${JSON.stringify(parsedMessage)}`);
+        activeUsers.forEach((user) => {
+            if (user !== ws && user.readyState === WebSocket.OPEN) {
+                user.send(message);
+                console.log(`Message sent to user: ${user}`);
+            }
+        });
 
-            // Broadcasting the message to all connected users except the sender
-            activeUsers.forEach((user) => {
-                if (user !== ws && user.readyState === WebSocket.OPEN) {
-                    user.send(message);
-                }
+        const parsedMessage = JSON.parse(message);
+        console.log(`Parsed message: ${JSON.stringify(parsedMessage)}`);
+
+        axios.post(endpoint, parsedMessage)
+            .then(response => {
+                console.log('Message stored in database');
+            })
+            .catch(error => {
+                console.error('Error storing message in database:', error.response ? error.response.data : error.message);
             });
-
-            // Sending the message to the backend for storage
-            axios.post(endpoint, parsedMessage)
-                .then(response => {
-                    console.log('Message stored in database');
-                })
-                .catch(error => {
-                    console.error('Error storing message in database:', error.response ? error.response.data : error.message);
-                });
-        } catch (error) {
-            console.error('Error processing message:', error);
-            ws.close(1011, 'Internal Server Error');
-        }
     });
 
     ws.on('close', () => {
@@ -53,10 +46,6 @@ wss.on('connection', (ws) => {
         if (index !== -1) {
             activeUsers.splice(index, 1);
         }
-    });
-
-    ws.on('error', (error) => {
-        console.error('WebSocket error:', error);
     });
 });
 
