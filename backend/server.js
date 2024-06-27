@@ -28,6 +28,8 @@ wss.on('connection', (ws, req) => {
         userConnections[username] = ws;
         activeUsers.push({ username, ws });
         console.log(`${username} connected`);
+    } else {
+        console.log('Connected user has no username');
     }
 
     console.log(`Active users: ${activeUsers.length}`);

@@ -70,7 +70,9 @@ onUnmounted(() => {
 
 function initWebSocket() {
   const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
-  ws = new WebSocket(`wss://moglichatbackend-cbuw.onrender.com/ws?username=${currentUser.username}`);
+  const wsUrl = `wss://moglichatbackend-cbuw.onrender.com/ws?username=${currentUser.username}`;
+
+  ws = new WebSocket(wsUrl);
 
   ws.onopen = () => {
     console.log('WebSocket connection established');
