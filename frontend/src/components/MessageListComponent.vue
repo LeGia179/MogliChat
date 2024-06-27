@@ -88,10 +88,10 @@ function initWebSocket() {
 
   ws.onclose = (event) => {
     console.log('WebSocket connection closed', event);
-    setTimeout(() => {
+
       console.log('Reconnecting...');
       initWebSocket();
-    }, 10000); // 10 Sekunden warten, bevor eine erneute Verbindung versucht wird
+    ; // 10 Sekunden warten, bevor eine erneute Verbindung versucht wird
   };
 
   ws.onerror = (error) => {
