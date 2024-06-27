@@ -5,7 +5,8 @@ const axios = require('axios');
 const path = require('path');
 const dotenv = require('dotenv');
 
-dotenv.config({ path: `.env.${process.env.NODE_ENV}` }); // Lädt die richtige .env Datei basierend auf NODE_ENV
+// Laden der Umgebungsvariablen aus der entsprechenden .env Datei
+dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 
 const app = express();
 
