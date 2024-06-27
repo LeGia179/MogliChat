@@ -12,6 +12,8 @@ const server = http.createServer(app);
 const wss = new WebSocket.Server({ server, path: '/ws' });
 
 const activeUsers = [];
+const baseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
+const endpoint = baseUrl + "/message";
 
 wss.on('connection', (ws) => {
     activeUsers.push(ws);
@@ -29,7 +31,7 @@ wss.on('connection', (ws) => {
         const parsedMessage = JSON.parse(message);
         console.log(`Parsed message: ${JSON.stringify(parsedMessage)}`);
 
-        axios.post('https://moglichat-odov.onrender.com/message', parsedMessage)
+        axios.post(endpoint, parsedMessage)
             .then(response => {
                 console.log('Message stored in database');
             })
