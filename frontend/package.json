@@ -24,8 +24,10 @@
     "normalize.css": "^8.0.1",
     "path": "^0.12.7",
     "pinia": "^2.1.7",
+    "sockjs-client": "^1.6.1",
     "vue": "^3.4.21",
     "vue-router": "^4.4.0",
+    "webstomp-client": "^1.2.6",
     "ws": "^8.17.1"
   },
   "devDependencies": {

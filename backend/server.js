@@ -12,7 +12,7 @@ const server = http.createServer(app);
 const wss = new WebSocket.Server({ server, path: '/ws' });
 
 const activeUsers = [];
-const baseUrl = process.env.VITE_BACKEND_BASE_URL;
+const baseUrl = process.env.VITE_BACKEND_BASE_URL || "http://localhost:3001";
 const endpoint = baseUrl + "/message";
 
 wss.on('connection', (ws) => {
@@ -53,7 +53,7 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/dist', 'index.html'));
 });
 
-const PORT = "https://moglichatbackend-cbuw.onrender.com" || 3001;
+const PORT = process.env.PORT || 3001;
 server.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);
 });

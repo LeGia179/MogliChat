@@ -76,14 +76,10 @@ function initWebSocket() {
   };
 
   ws.onmessage = (event) => {
-    const reader = new FileReader();
-    reader.onload = function() {
-      const message = JSON.parse(reader.result as string);
-      console.log('Message received from server:', message);
-      messages.value.push(message);
-      console.log('Updated messages:', messages.value);
-    };
-    reader.readAsText(event.data);
+    const message = JSON.parse(event.data);
+    console.log('Message received from server:', message);
+    messages.value.push(message);
+    console.log('Updated messages:', messages.value);
   };
 
   ws.onclose = (event) => {
@@ -98,7 +94,6 @@ function initWebSocket() {
     console.error('WebSocket error:', error);
   };
 }
-
 
 function addNewMessage() {
   if (!currentUser || !currentUser.username) {
