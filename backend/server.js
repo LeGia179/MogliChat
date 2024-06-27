@@ -1,3 +1,6 @@
+// Laden Sie die Umgebungsvariablen aus der .env-Datei
+require('dotenv').config();
+
 const express = require('express');
 const http = require('http');
 const WebSocket = require('ws');
@@ -8,11 +11,12 @@ const app = express();
 app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
 const server = http.createServer(app);
+
 const wss = new WebSocket.Server({ server, path: '/ws' });
 
 const activeUsers = [];
-const baseUrl = process.env.VITE_BACKEND_BASE_URL || 'http://localhost:8080';
-const endpoint = `${baseUrl}/message`;
+const baseUrl = process.env.VITE_BACKEND_BASE_URL;
+const endpoint = baseUrl + "/message";
 
 wss.on('connection', (ws) => {
     activeUsers.push(ws);
@@ -46,6 +50,10 @@ wss.on('connection', (ws) => {
         if (index !== -1) {
             activeUsers.splice(index, 1);
         }
+    });
+
+    ws.on('error', (error) => {
+        console.error('WebSocket error:', error);
     });
 });
 
