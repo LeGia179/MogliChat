@@ -69,7 +69,9 @@ onUnmounted(() => {
 });
 
 function initWebSocket() {
-  ws = new WebSocket('wss://moglichatbackend-cbuw.onrender.com/ws');
+  const wsUrl = import.meta.env.VITE_WEBSOCKET_URL;
+
+  ws = new WebSocket(wsUrl);
 
   ws.onopen = () => {
     console.log('WebSocket connection established');
