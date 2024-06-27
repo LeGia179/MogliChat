@@ -69,7 +69,7 @@ async function anmelden() {
     </div>
     <div class="input-group">
       <span class="email-password">Passwort</span>
-      <input type="text" v-model="newUser.password" class="passwordbox">
+      <input type="password" v-model="newUser.password" class="passwordbox">
     </div>
     <div class="startseite-rechts-innenbox">
       <button @click="anmelden" class="loginButton">Registrieren</button>
