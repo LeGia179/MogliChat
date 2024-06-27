@@ -12,7 +12,7 @@ const server = http.createServer(app);
 const wss = new WebSocket.Server({ server, path: '/ws' });
 
 const activeUsers = [];
-const baseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
+const baseUrl = process.env.VITE_BACKEND_BASE_URL;
 const endpoint = baseUrl + "/message";
 
 wss.on('connection', (ws) => {
