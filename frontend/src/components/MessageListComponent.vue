@@ -69,7 +69,8 @@ onUnmounted(() => {
 });
 
 function initWebSocket() {
-  ws = new WebSocket('wss://moglichatbackend-cbuw.onrender.com/ws');
+  const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+  ws = new WebSocket(`wss://moglichatbackend-cbuw.onrender.com/ws?username=${currentUser.username}`);
 
   ws.onopen = () => {
     console.log('WebSocket connection established');
@@ -88,10 +89,10 @@ function initWebSocket() {
 
   ws.onclose = (event) => {
     console.log('WebSocket connection closed', event);
-
+    setTimeout(() => {
       console.log('Reconnecting...');
       initWebSocket();
-    ; // 10 Sekunden warten, bevor eine erneute Verbindung versucht wird
+    }, 10000); // 10 Sekunden warten, bevor eine erneute Verbindung versucht wird
   };
 
   ws.onerror = (error) => {
