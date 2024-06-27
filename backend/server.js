@@ -22,8 +22,9 @@ wss.on('connection', (ws) => {
     ws.on('message', (message) => {
         console.log(`Message received: ${message}`);
 
+        // Broadcast the message to all connected users
         activeUsers.forEach((user) => {
-            if (user.readyState === WebSocket.OPEN) {
+            if (user !== ws && user.readyState === WebSocket.OPEN) {
                 user.send(message);
             }
         });
