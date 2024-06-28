@@ -1,15 +1,16 @@
 package htwberlin.backend.repository;
 
-import htwberlin.backend.Entity.UserEntity;
+
+import htwberlin.backend.Entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-//Repo für Interaktionen mit User-DB ohne spezielle SQL-Abfragen
-//CRUD-Operationen (erstellen, lesen/filtern, aktualisieren, löschen)
-@Repository
-public interface UserRepository extends JpaRepository<UserEntity, String> {
-    UserEntity findUserEntityByEmailAndUsername(String email, String username);
-    UserEntity findUserEntityByEmail(String email);
-    UserEntity findUserEntityByUsername(String username); // Neue Methode zur Überprüfung des Benutzernamens
-}
 
+@Repository
+public interface UserRepository extends JpaRepository<User, String> {
+    User findByUsername(String username);
+    User findUserById(String id);
+    User findUserByEmail(String email);
+    void deleteUserByEmail(String email);
+    void deleteUserById(String id);
+}

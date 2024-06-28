@@ -1,67 +1,118 @@
 package htwberlin.backend.service;
 
-import htwberlin.backend.Entity.UserEntity;
-import htwberlin.backend.Exception.IncorrectPasswordException;
+import htwberlin.backend.Exception.InvalidPasswordException;
 import htwberlin.backend.Exception.UserNotFoundException;
+import htwberlin.backend.Entity.Message;
+import htwberlin.backend.Entity.User;
+import htwberlin.backend.repository.ChatmessageRepository;
+import htwberlin.backend.repository.MultichannelRepository;
 import htwberlin.backend.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import htwberlin.backend.Exception.UserAlreadyExistsException;
+
+import java.util.List;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final ChatmessageRepository messageRepository;
+    private final MultichannelRepository multichannelRepository;
+    private final MultichannelService multichannelService;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    public UserEntity addUser(String username, String password, String email) {
-        UserEntity userByEmailAndUsername = userRepository.findUserEntityByEmailAndUsername(email, username);
-        UserEntity userByEmail = userRepository.findUserEntityByEmail(email);
-        UserEntity userByUsername = userRepository.findUserEntityByUsername(username);
-        if (userByEmailAndUsername != null) {
-            throw new UserAlreadyExistsException("Ein Benutzer mit dieser E-Mail-Adresse und diesem Benutzernamen existiert bereits.");
+    public User createUser(String username, String email, String password){
+        User user_exists = userRepository.findUserByEmail(email);
+        if(user_exists != null){
+            return null;
         }
-        if (userByEmail != null) {
-            throw new UserAlreadyExistsException("Ein Benutzer mit dieser E-Mail-Adresse existiert bereits.");
-        }
-        if (userByUsername != null) {
-            throw new UserAlreadyExistsException("Ein Benutzer mit diesen Benutzernamen existiert bereits.");
-        }
-        UserEntity user = new UserEntity();
+        User user = new User();
+        user.setId(UUID.randomUUID().toString().substring(0,5));
         user.setUsername(username);
+        user.setEmail(email);
+        // Hashing the password
         String hashedPassword = passwordEncoder.encode(password);
         user.setPassword(hashedPassword);
-        user.setEmail(email);
-        user.setId(UUID.randomUUID().toString());
-        //userRepository.deleteAll();
         return userRepository.save(user);
-        //userRepository.findByEmailContaining("gmail");
-
     }
 
-    public UserEntity authenticateUser(String email, String password) {
-        UserEntity user = userRepository.findUserEntityByEmail(email);
-        if (user == null) {
-            throw new UserNotFoundException("Kein Benutzer mit dieser E-Mail-Adresse vorhanden.");
+    public User getUserByUsername(String username){
+        return userRepository.findByUsername(username);
+    }
+
+    public User getUserById(String userId){
+        return userRepository.findUserById(userId);
+    }
+
+    public User getUserByEmail(String email){
+        return userRepository.findUserByEmail(email);
+    }
+
+    public User loginUser(String email, String password){
+        User user = userRepository.findUserByEmail(email);
+        if (user == null)
+            throw new UserNotFoundException("User with email " + email + " does not exist.");
+        if (!passwordEncoder.matches(password, user.getPassword()))
+            throw new InvalidPasswordException("Invalid password for email " + email);
+        return user;
+    }
+    public void deleteAllMessagesFromUsers() {
+        List<User> allUsers = userRepository.findAll();
+        for (User user : allUsers) {
+            user.getMessages().clear(); // Clear the messages from the textchannel
+            userRepository.save(user);
         }
-        if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new IncorrectPasswordException("Falsches Passwort.");
+    }
+    public void deleteAllUsers() {
+        userRepository.deleteAll();
+    }
+
+    @Transactional
+    public void deleteUserByEmail(String email){
+        User foundUser = getUserByEmail(email);
+        if (foundUser == null) {
+            throw new UserNotFoundException("User with email " + email + " does not exist.");
+        }
+        for (Message message : foundUser.getMessages()) {
+            multichannelRepository.findTextchannelsByUsersId(foundUser.getId()).forEach(textchannel -> {
+                textchannel.getMessages().remove(message);
+                multichannelRepository.save(textchannel);
+            });
+        }
+        multichannelRepository.findTextchannelsByUsersId(foundUser.getId()).forEach(textchannel -> {
+            textchannel.getUsers().remove(foundUser);
+            multichannelRepository.save(textchannel);
+        });
+        userRepository.deleteUserByEmail(email);
+    }
+    @Transactional
+    public void deleteUserById(String userId){
+        User foundUser = getUserById(userId);
+        if (foundUser == null) {
+            throw new UserNotFoundException("User with id " + userId + " does not exist.");
+        }
+        for (Message message : foundUser.getMessages()) {
+            multichannelRepository.findTextchannelsByUsersId(foundUser.getId()).forEach(textchannel -> {
+                textchannel.getMessages().remove(message);
+                multichannelRepository.save(textchannel);
+            });
+        }
+        multichannelRepository.findTextchannelsByUsersId(foundUser.getId()).forEach(textchannel -> {
+            textchannel.getUsers().remove(foundUser);
+            multichannelRepository.save(textchannel);
+        });
+        userRepository.deleteUserById(userId);
+    }
+
+    public User findUserByUsername(String username){
+        User user = userRepository.findByUsername(username);
+        if(user == null){
+            throw new UserNotFoundException("User with name " + username + " does not exist.");
         }
         return user;
     }
-    //absicherungs Commit and Push
-    public UserEntity findUserByUsername(String username) {
-        UserEntity user = userRepository.findUserEntityByUsername(username);
-        if (user == null) {
-            throw new UserNotFoundException("User not found");
-        }
-        return user;
-    }
 
-    public UserEntity saveUser(UserEntity user) {
-        return userRepository.save(user);
-    }
 }

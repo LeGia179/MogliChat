@@ -1,12 +1,15 @@
 package htwberlin.backend.repository;
 
-import htwberlin.backend.Entity.ChatMessageEntity;
+import htwberlin.backend.Entity.Message;
+import htwberlin.backend.Entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-//Repo für Interaktionen mit Nachrichten-DB ohne spezielle SQL-Abfragen
-//CRUD-Operationen (erstellen, lesen/filtern, aktualisieren, löschen)
-@Repository
-public interface ChatMessageRepository extends JpaRepository<ChatMessageEntity,String> {
+import java.util.List;
 
+@Repository
+public interface ChatmessageRepository extends JpaRepository<Message, String> {
+    List<Message> findMessagesByTextchannelIdAndSenderId(String textchannelId, String userId);
+    List<Message> findMessagesBySender(User user);
+    void deleteById(String id);
 }
