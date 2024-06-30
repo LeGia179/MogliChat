@@ -20,10 +20,11 @@ async function anmelden() {
       password: password.value
     });
 // Benutzerinformationen speichern
-    localStorage.setItem('currentUser', JSON.stringify(response.data));
+    /*localStorage.setItem('currentUser', JSON.stringify(response.data));
     console.log("User authenticated:", response.data);
     errorMessage.value = null; // Fehlermeldung bei Erfolg resetten
-    router.push('/chat'); // Navigation zu /chat
+    router.push('/chat'); // Navigation zu /chat*/
+    await router.push({name: 'chat', params: {userId: response.data.id,}})
   } catch (error) {
 // Fehlerbehandlung bei fehlgeschlagener Anmeldung
     if (axios.isAxiosError(error) && error.response) {

@@ -1,6 +1,9 @@
+<!-- Struktur für Chat, Nachrichtenanzeige, Eingabefeld -->
 <template>
+  <!-- Container für Nachrichtenanzeige -->
   <div class="grid-container01">
     <div class="nachrichtenUi">
+      <!-- Nachrichten werden gerendert -->
       <div v-for="(userMessage, index) in messages" :key="index" :class="['chat', getMessageSide(userMessage.userName)]">
         <div class="message-content">
           {{ userMessage.userName }}: {{ userMessage.message }}
@@ -11,6 +14,7 @@
       </div>
     </div>
   </div>
+  <!-- Container für das Eingabefeld -->
   <div class="grid-container02">
     <div class="userInput">
       <input type="text" v-model="newMessage.message" placeholder="Message" class="inputField" @keyup.enter="addNewMessage">
@@ -21,117 +25,66 @@
   </div>
 </template>
 
+<!-- Funktion: Senden/Laden von Nachrichten -->
 <script setup lang="ts">
-import { ref, watch, onMounted, onUnmounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import type { Message } from '@/model/message';
 import axios from "axios";
 
-const props = defineProps({
-  messages: {
-    type: Array as () => Message[],
-    required: true,
-  }
-});
+// Initialisiert das Nachrichten-Array
+let messages = ref<Message[]>([]);
 
-const messages = ref<Message[]>(props.messages);
-
-watch(() => props.messages, (newMessages) => {
-  messages.value = [...newMessages];
-});
-
+// Initialisiert die neue Nachricht
 const newMessage = ref<Message>({ userName: '', message: '', timestamp: new Date().toISOString() });
-
-const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
-
-let ws: WebSocket | null = null;
 
 // Basis-URL für das Backend
 const baseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
 const endpoint = baseUrl + "/message";
 
+// Lädt den aktuellen Benutzer aus dem lokalen Speicher
+const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+
+// Lädt Nachrichten vom Server, wenn die Komponente gemountet wird
 onMounted(() => {
-  // Nachrichten vom Server laden
   axios.get(endpoint).then((response) => {
-    console.log('Fetched messages from server:', response.data);
     messages.value = response.data;
   }).catch((error) => {
-    console.error('Error fetching messages', error);
+    console.error('Error fetching message', error);
   });
-
-  // Initialisieren der WebSocket-Verbindung
-  initWebSocket();
 });
 
-onUnmounted(() => {
-  if (ws) {
-    ws.close();
-  }
-});
-
-function initWebSocket() {
-  ws = new WebSocket('wss://moglichatbackend-cbuw.onrender.com/ws');
-
-  ws.onopen = () => {
-    console.log('WebSocket connection established');
-  };
-
-  ws.onmessage = (event) => {
-    const message = JSON.parse(event.data);
-    console.log('Message received from server:', message);
-    messages.value.push(message);
-    console.log('Updated messages:', messages.value);
-  };
-
-  ws.onclose = (event) => {
-    console.log('WebSocket connection closed', event);
-    setTimeout(() => {
-      console.log('Reconnecting...');
-      initWebSocket();
-    }, 10000); // 10 Sekunden warten, bevor eine erneute Verbindung versucht wird
-  };
-
-  ws.onerror = (error) => {
-    console.error('WebSocket error:', error);
-  };
-}
-
+// Fügt eine neue Nachricht hinzu
 function addNewMessage() {
   if (!currentUser || !currentUser.username) {
     console.error('No user logged in');
     return;
   }
   const messageToSend = { userName: currentUser.username, message: newMessage.value.message, timestamp: new Date().toISOString() };
-  if (ws && ws.readyState === WebSocket.OPEN) {
-    console.log('Sending message to server:', messageToSend);
-    ws.send(JSON.stringify(messageToSend));
-    console.log('Message sent to WebSocket server:', messageToSend);
-
-    // Nachricht auch per HTTP-POST senden
-    axios.post(endpoint, messageToSend)
-        .then(() => {
-          console.log('Message sent to server via HTTP:', messageToSend);
-          messages.value.push(messageToSend);
-          newMessage.value.message = '';
-        })
-        .catch((error) => {
-          console.error('Error sending message via HTTP:', error);
-        });
-  } else {
-    console.error('WebSocket is not open');
-  }
+  axios.post(endpoint, messageToSend)
+      .then(() => {
+        messages.value.push(messageToSend);
+        newMessage.value.message = '';
+      })
+      .catch((error) => {
+        console.error('Error sending message:', error);
+      });
 }
 
+// Formatiert den Zeitstempel
 function formatTimestamp(timestamp: string): string {
   const date = new Date(timestamp);
   return date.toLocaleString();
 }
 
+// Gibt die Klasse für die Nachrichten-Seite zurück
 function getMessageSide(userName: string): string {
   return currentUser.username === userName ? 'user-message' : 'other-message';
 }
 </script>
 
+<!-- Styling -->
 <style scoped>
+/* Styling Nachrichtenanzeige */
 .grid-container01 {
   display: flex;
   grid-column-start: 3;
@@ -152,7 +105,7 @@ function getMessageSide(userName: string): string {
   border: 1px solid #83deb0;
   padding: 10px;
 }
-
+/* Styling Nachrichten */
 .chat {
   display: flex;
   flex-direction: column;
@@ -160,16 +113,18 @@ function getMessageSide(userName: string): string {
   padding: 10px;
   border-radius: 10px;
   margin: 10px 0;
-  max-width: 70%;
+  max-width: 70%; /* Maximale Breite der Nachricht */
 }
-
+/* Styling für Nachrichten aktueller Benutzer */
 .chat.user-message {
+
   background-color: greenyellow;
   text-align: right;
   margin-left: auto;
 }
-
+/* Styling für Nachrichten anderer Benutzer */
 .chat.other-message {
+
   background-color: red;
   text-align: left;
   margin-right: auto;
@@ -184,7 +139,7 @@ function getMessageSide(userName: string): string {
   color: gray;
   text-align: right;
 }
-
+/* Styling für Eingabefeld */
 .grid-container02 {
   display: flex;
   grid-column-start: 3;
