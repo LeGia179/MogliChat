@@ -38,9 +38,6 @@ public class User {
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Textchannel> textchannels;
 
-    @ManyToMany()
-    private List<Directchannel> directchannels;
-
     public String getId() {
         return id;
     }
@@ -89,11 +86,4 @@ public class User {
         this.textchannels = textchannels;
     }
 
-    public List<Directchannel> getDirectchannels() {
-        return directchannels;
-    }
-
-    public void setDirectchannels(List<Directchannel> directchannels) {
-        this.directchannels = directchannels;
-    }
 }

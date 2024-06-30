@@ -41,6 +41,9 @@ public class ChatMessageService {
         user.getMessages().add(message);
         return messageRepository.save(message);
     }
+    public void deleteAllMessages() {
+        messageRepository.deleteAll();
+    }
 
     public List<Message> getMessagesByTextchannelAndUser(String textchannelId, String userId){
         return messageRepository.findMessagesByTextchannelIdAndSenderId(textchannelId, userId);
@@ -50,19 +53,15 @@ public class ChatMessageService {
         Textchannel textchannel = multichannelRepository.findTextchannelById(channelId);
         List<MessageTransfer> messageTransfers = new ArrayList<>();
         for (Message message : textchannel.getMessages()) {
-            MessageTransfer dto = new MessageTransfer();
-            UserTransfer senderDTO = new UserTransfer();
-            senderDTO.setUsername(message.getSender().getUsername());
-            dto.setSender(senderDTO);
-            dto.setMessage(message.getContent());
-            dto.setDate(message.getDate());
-            messageTransfers.add(dto);
+            MessageTransfer messageTransfer = new MessageTransfer();
+            UserTransfer userTransfer = new UserTransfer();
+            userTransfer.setUsername(message.getSender().getUsername());
+            messageTransfer.setSender(userTransfer);
+            messageTransfer.setMessage(message.getContent());
+            messageTransfer.setDate(message.getDate());
+            messageTransfers.add(messageTransfer);
         }
         return messageTransfers;
-    }
-
-    public void deleteAllMessages() {
-        messageRepository.deleteAll();
     }
 
 }

@@ -21,6 +21,43 @@ public class Message {
     @ManyToOne
     private User sender;
 
-    @ManyToOne
-    private Directchannel directchannel;
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public Textchannel getTextchannel() {
+        return textchannel;
+    }
+
+    public void setTextchannel(Textchannel textchannel) {
+        this.textchannel = textchannel;
+    }
+
+    public User getSender() {
+        return sender;
+    }
+
+    public void setSender(User sender) {
+        this.sender = sender;
+    }
 }

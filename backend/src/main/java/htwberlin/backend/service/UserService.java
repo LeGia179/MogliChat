@@ -19,9 +19,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
-    private final ChatMessageRepository messageRepository;
     private final MultichannelRepository multichannelRepository;
-    private final MultichannelService multichannelService;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public User createUser(String username, String email, String password){
@@ -33,7 +31,6 @@ public class UserService {
         user.setId(UUID.randomUUID().toString().substring(0,5));
         user.setUsername(username);
         user.setEmail(email);
-        // Hashing the password
         String hashedPassword = passwordEncoder.encode(password);
         user.setPassword(hashedPassword);
         return userRepository.save(user);
@@ -54,15 +51,15 @@ public class UserService {
     public User loginUser(String email, String password){
         User user = userRepository.findUserByEmail(email);
         if (user == null)
-            throw new UserNotFoundException("User with email " + email + " does not exist.");
+            throw new UserNotFoundException("Der Benutzer mit dieser Email: " + email + " Existiert nicht.");
         if (!passwordEncoder.matches(password, user.getPassword()))
-            throw new InvalidPasswordException("Invalid password for email " + email);
+            throw new InvalidPasswordException("Ungültiges Passwort für die Email: " + email);
         return user;
     }
     public void deleteAllMessagesFromUsers() {
         List<User> allUsers = userRepository.findAll();
         for (User user : allUsers) {
-            user.getMessages().clear(); // Clear the messages from the textchannel
+            user.getMessages().clear();
             userRepository.save(user);
         }
     }
@@ -74,7 +71,7 @@ public class UserService {
     public void deleteUserByEmail(String email){
         User foundUser = getUserByEmail(email);
         if (foundUser == null) {
-            throw new UserNotFoundException("User with email " + email + " does not exist.");
+            throw new UserNotFoundException("Benutzer mit dieser Email: " + email + " existiert nicht!");
         }
         for (Message message : foundUser.getMessages()) {
             multichannelRepository.findTextchannelsByUsersId(foundUser.getId()).forEach(textchannel -> {
@@ -92,7 +89,7 @@ public class UserService {
     public void deleteUserById(String userId){
         User foundUser = getUserById(userId);
         if (foundUser == null) {
-            throw new UserNotFoundException("User with id " + userId + " does not exist.");
+            throw new UserNotFoundException("Benutzer mit dieser ID: " + userId + " existiert nicht!");
         }
         for (Message message : foundUser.getMessages()) {
             multichannelRepository.findTextchannelsByUsersId(foundUser.getId()).forEach(textchannel -> {
@@ -110,7 +107,7 @@ public class UserService {
     public User findUserByUsername(String username){
         User user = userRepository.findByUsername(username);
         if(user == null){
-            throw new UserNotFoundException("User with name " + username + " does not exist.");
+            throw new UserNotFoundException("Dieser Benutzername: " + username + " existiert nicht!");
         }
         return user;
     }

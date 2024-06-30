@@ -21,20 +21,18 @@ public class WebSocketController {
     @MessageMapping("/chat.sendMessage/{channelId}")
     @SendTo("/topic/channel/{channelId}")
     public ChatTransfer broadcastMessage(@Payload ChatTransfer chatTransfer, @DestinationVariable String channelId) {
-        logger.info("Received message in channel {}: {}", channelId, chatTransfer);
-        // The message is automatically broadcast to all subscribers of '/topic/channel/{channelId}'
+        logger.info("Empfange Nachrichten aus dem Kanal {}: {}", channelId, chatTransfer);
         return chatTransfer;
     }
 
-    // Handle WebSocket connection event
     @EventListener
     public void handleWebSocketConnectListener(SessionConnectedEvent event) {
-        logger.info("Received a new web socket connection");
+        logger.info("Websocket wurde verbunden!");
     }
 
     // Handle WebSocket disconnection event
     @EventListener
     public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
-        logger.info("A connection was closed");
+        logger.info("Websocket verbindung getrennt!");
     }
 }

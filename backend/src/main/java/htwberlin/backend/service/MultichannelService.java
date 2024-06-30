@@ -61,7 +61,6 @@ public class MultichannelService {
         for (User user : textchannel.getUsers()) {
             user.setMessages(null);
             user.setTextchannels(null);
-            user.setDirectchannels(null);
             users.add(user);
         }
         return textchannel.getUsers();
@@ -92,7 +91,7 @@ public class MultichannelService {
     public void deleteAllMessagesFromTextchannels() {
         List<Textchannel> allTextchannels = multichannelRepository.findAll();
         for (Textchannel textchannel : allTextchannels) {
-            textchannel.getMessages().clear(); // Clear the messages from the textchannel
+            textchannel.getMessages().clear();
             multichannelRepository.save(textchannel);
         }
     }
@@ -122,6 +121,4 @@ public class MultichannelService {
         textchannel.getUsers().clear();
         multichannelRepository.delete(textchannel);
     }
-
-
 }
