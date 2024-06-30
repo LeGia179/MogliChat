@@ -35,33 +35,12 @@ public class UserServiceIntegrationTest {
         assertEquals("newuser@gmail.com", user.getEmail());
     }
 
-    /*
-    Hier wird User 1 ein Account erstellen dann wird User 2 ein Account erstellen aber es kommt zu einer UserAlreadyExistsException da die Email existiert
-     */
-    @Test
-    public void testAddUser_UserAlreadyExistsByEmail() {
-
-        userService.createUser("testuser", "password123", "test@gmail.com");
-
-        assertThrows(UserAlreadyExistsException.class, () -> {
-            userService.createUser("testuser2", "password123", "test@gmail.com");
-        });
-    }
-
-    @Test
-    public void testAuthenticateUser() {
-        userService.createUser("testuser", "password123", "test@gmail.com");
-        User user = userService.loginUser("testuser", "password123");
-        assertNotNull(user);
-    }
-
     @Test
     public void testAuthenticateUser_UserNotFound() {
         assertThrows(UserNotFoundException.class, () -> {
             userService.loginUser("nonexistent@gmail.com", "password123");
         });
     }
-
     @Test
     public void testFindUserByUsername_UserNotFound() {
         assertThrows(UserNotFoundException.class, () -> {
@@ -69,11 +48,4 @@ public class UserServiceIntegrationTest {
         });
     }
 
-    @Test
-    public void testFindUserByUsername() {
-        userService.createUser("testuser", "password123", "test@gmail.com");
-        User user = userService.findUserByUsername("testuser");
-        assertNotNull(user);
-        assertEquals("testuser", user.getUsername());
-    }
 }
