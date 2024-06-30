@@ -1,30 +1,18 @@
-# Namen
-- Gia Minh Le 583969
-- Phuc Hong Le Ehlert 584964
-
 # MogliChat
-MogliChat ist eine Chat-App, die es Benutzern ermöglicht, miteinander zu chatten 
+MogliChat ist eine Chat-App von Gia Minh Le (583969) und Phuc Hong Le Ehlert (584964), die es Benutzern ermöglicht, miteinander zu chatten 
 und individuelle Profile zu gestalten.
-///hallo
-# Entity Klassen
 
-## User
-- Benutzername
-- Passwort
-- E-Mail
 
-## Nachricht
-- Datum
-- Uhrzeit
-- Name des Senders
-- Inhalt
-
-## ChatROOM
-- Name
-
-https://moglichat.onrender.com
-https://github.com/LeGia179/MogliChat.git
-
-TODO:
-"/" im Controller genauer beschreiben
-pull test
+## Installation
+**Frontend**
+```bash
+cd frontend
+npm install
+npm run dev
+```
+**Backend**
+```bash
+-MogliChatApplication Spring Boot einrichten mit Entwicklungsvariablen(User, Passwort, URL)
+-Für Datenbank PostgreSQL einrichten mit den gleichen den Werten der Entwicklungsvariablen
+-MogliChatApplication anschließend starten
+```
