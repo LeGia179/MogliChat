@@ -12,7 +12,7 @@ npm run dev
 ```
 **Backend**
 ```bash
--MogliChatApplication Spring Boot einrichten mit Entwicklungsvariablen(User, Passwort, URL)
--Für Datenbank PostgreSQL einrichten mit den gleichen den Werten der Entwicklungsvariablen
+-MogliChatApplication Spring Boot einrichten mit Umgebungsvariablen(User, Passwort, URL)
+-Für Datenbank PostgreSQL einrichten mit den gleichen den Werten der Umgebungsvariablen
 -MogliChatApplication anschließend starten
 ```
