@@ -5,7 +5,7 @@
 # MogliChat
 MogliChat ist eine Chat-App, die es Benutzern ermöglicht, miteinander zu chatten 
 und individuelle Profile zu gestalten.
-
+///hallo
 # Entity Klassen
 
 ## User
