@@ -12,3 +12,8 @@
 - _Direktnachrichten_ 
     - an Nutzer mit deren erstellen Accounts
     - Nachrichten werden durch Aktualisierung geladen
+
+- _Websocket_ 
+  - Versuchter Ansatz für Realtime Communication 
+  - Daten werden gespeichert aber Nachrichten werden beim Neuladen im frontend nicht angezeigt.
+  - Mögliches Problem könnte erstens an Websocket selber liegen oder an HTML normalizer.
