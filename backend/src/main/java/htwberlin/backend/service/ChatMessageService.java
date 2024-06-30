@@ -5,7 +5,8 @@ import htwberlin.backend.WebSocketTransfer.UserTransfer;
 import htwberlin.backend.Entity.Message;
 import htwberlin.backend.Entity.Textchannel;
 import htwberlin.backend.Entity.User;
-import htwberlin.backend.repository.ChatmessageRepository;
+import htwberlin.backend.repository.ChatMessageRepository;
+
 import htwberlin.backend.repository.MultichannelRepository;
 import htwberlin.backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,9 +20,9 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class ChatmessageService {
+public class ChatMessageService {
 
-    private final ChatmessageRepository messageRepository;
+    private final ChatMessageRepository messageRepository;
     private final UserRepository userRepository;
     private final MultichannelRepository multichannelRepository;
     final static DateTimeFormatter CUSTOM_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");

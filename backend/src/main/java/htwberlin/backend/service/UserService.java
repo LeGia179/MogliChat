@@ -4,7 +4,7 @@ import htwberlin.backend.Exception.InvalidPasswordException;
 import htwberlin.backend.Exception.UserNotFoundException;
 import htwberlin.backend.Entity.Message;
 import htwberlin.backend.Entity.User;
-import htwberlin.backend.repository.ChatmessageRepository;
+import htwberlin.backend.repository.ChatMessageRepository;
 import htwberlin.backend.repository.MultichannelRepository;
 import htwberlin.backend.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -19,7 +19,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
-    private final ChatmessageRepository messageRepository;
+    private final ChatMessageRepository messageRepository;
     private final MultichannelRepository multichannelRepository;
     private final MultichannelService multichannelService;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();

@@ -3,7 +3,7 @@ package htwberlin.backend.service;
 import htwberlin.backend.Entity.Message;
 import htwberlin.backend.Entity.Textchannel;
 import htwberlin.backend.Entity.User;
-import htwberlin.backend.repository.ChatmessageRepository;
+import htwberlin.backend.repository.ChatMessageRepository;
 import htwberlin.backend.repository.MultichannelRepository;
 import htwberlin.backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ import java.util.UUID;
 public class MultichannelService {
     private final MultichannelRepository multichannelRepository;
     private final UserRepository userRepository;
-    private final ChatmessageRepository messageRepository;
+    private final ChatMessageRepository messageRepository;
 
     public Textchannel createTextchannel(String name, String description, String userId){
         Textchannel findTextchannel = multichannelRepository.findTextchannelByName(name.replace(" ", "-"));

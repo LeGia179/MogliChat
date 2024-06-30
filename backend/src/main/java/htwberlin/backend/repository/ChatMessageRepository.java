@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ChatmessageRepository extends JpaRepository<Message, String> {
+public interface ChatMessageRepository extends JpaRepository<Message, String> {
     List<Message> findMessagesByTextchannelIdAndSenderId(String textchannelId, String userId);
     List<Message> findMessagesBySender(User user);
     void deleteById(String id);

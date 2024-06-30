@@ -6,8 +6,9 @@ import htwberlin.backend.Entity.Directchannel;
 import htwberlin.backend.Entity.Message;
 import htwberlin.backend.Entity.Textchannel;
 import htwberlin.backend.Entity.User;
+import htwberlin.backend.service.ChatMessageService;
 import htwberlin.backend.service.SinglechannelService;
-import htwberlin.backend.service.ChatmessageService;
+
 import htwberlin.backend.service.MultichannelService;
 import htwberlin.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -23,12 +24,12 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class MogliChatController {
 
-    private final ChatmessageService messageService;
+    private final ChatMessageService messageService;
     private final UserService userService;
     private final MultichannelService multichannelService;
     private final SinglechannelService singlechannelService;
 
-    //create new user
+    //Erstellt ein neuen Benutzer
     @PostMapping("/users")
     public ResponseEntity<?> createUser(@RequestBody User user){
         User created_user = userService.createUser(user.getUsername(), user.getEmail(), user.getPassword());
@@ -38,7 +39,7 @@ public class MogliChatController {
         return ResponseEntity.ok(created_user);
     }
 
-    //create new channel
+    //Erstellt ein neuen Kanal
     @PostMapping("/channels/users/{userId}")
     public ResponseEntity<?> createTextchannel(@RequestBody Textchannel textchannel, @PathVariable("userId") String userId){
         Textchannel created_textchannel = multichannelService.createTextchannel(textchannel.getName(), textchannel.getDescription(), userId);
@@ -47,13 +48,6 @@ public class MogliChatController {
         }
         return ResponseEntity.ok(created_textchannel);
     }
-
-    //create new direct channel
-    @PostMapping("/directchannels")
-    public Directchannel createDirectchannel(String userId1, String userId2){
-        return singlechannelService.createDirectchannel(userId1, userId2);
-    }
-
 
     //get user by username
     @GetMapping("/users/username/{username}")
