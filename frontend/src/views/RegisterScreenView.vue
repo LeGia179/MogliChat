@@ -1,16 +1,13 @@
-<!-- Funktion: import Register-Komponente -->
-<script setup lang="ts">
-import RegisterComponent from "@/components/RegisterComponent.vue";
-</script>
-
-<!-- Struktur Register-Screen -->
 <template>
   <div class="RegisterScreenUI">
     <RegisterComponent />
   </div>
 </template>
 
-<!-- Styling Register-Screen -->
+<script setup lang="ts">
+import RegisterComponent from "@/components/RegisterComponent.vue";
+</script>
+
 <style scoped>
 .RegisterScreenUI {
   box-sizing: border-box;

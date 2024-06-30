@@ -1,42 +1,38 @@
 import { createRouter, createWebHistory } from 'vue-router'
-
-import ChatView from '../views/ChatView.vue';
-import SupportView from '@/views/SupportView.vue'
+import ChatUIView from '../views/ChatView.vue'
 import StartView from "@/views/StartView.vue";
-import LoginScreenView  from "@/views/LoginScreenView.vue";
+import LoginScreenView from "@/views/LoginScreenView.vue";
 import RegisterScreenView from "@/views/RegisterScreenView.vue";
-
-
+import ShowFishView from "@/views/ShowFishView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
+      path: '/users',
+      name: 'Signup',
+      component: RegisterScreenView
+    },
+    {
+      path: '/users/:userId',
+      name: 'ChatUI',
+      component: ChatUIView
+    },
+    {
       path: '/login',
-      name: 'login',
+      name: 'LoginView',
       component: LoginScreenView
     },
     {
-      path: '/register',
-      name: 'register',
-      component: RegisterScreenView
-    },
-
-    {
-      path: '/chat',
-      name: 'chat',
-      component: ChatView
-    },
-    {
-      path: '/support',
-      name: 'support',
-      component: SupportView
-    },
-    {
       path: '/',
-      name: 'home',
+      name: 'Home',
       component: StartView
     },
+    {
+      path: '/showFish',
+      name: 'ShowFish',
+      component: ShowFishView
+    }
   ]
 })
 

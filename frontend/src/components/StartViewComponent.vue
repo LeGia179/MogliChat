@@ -1,4 +1,25 @@
-<!-- Funktion: Navigation zur Anmelde- und Registrierungsseite -->
+<template>
+  <!-- Linke Startseite mit Logo und Willkommensnachricht -->
+  <div class="startview-left-side">
+    <router-link to="/">
+      <div class="logo-container">
+        <img src="../assets/logo-transparent-png.png" class="logo">
+      </div>
+    </router-link>
+    <div class="animation-container">
+      <p class="animated-text">Willkommen bei MogliChat</p>
+    </div>
+  </div>
+  <!-- Rechte Startseite mit Auswahl -->
+  <div class="login-header">
+    <h1>Erste Schritte</h1>
+    <div class="register-box">
+      <button @click="anmelden" class="login-button">Anmelden</button>
+      <button @click="registrieren" class="register-button">Registrieren</button>
+    </div>
+  </div>
+</template>
+
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 // Router-Instanz
@@ -9,37 +30,13 @@ function anmelden() {
 }
 // Navigation zur Registerseite
 function registrieren() {
-  router.push('/register');
+  router.push('/users');
 }
 </script>
 
-<!-- Struktur Startseite -->
-<template>
-  <!-- Linke Startseite mit Logo und Willkommensnachricht -->
-  <div class="startseite-links">
-    <router-link to="/">
-    <div class="logo-container">
-      <img src="../assets/logo-transparent-png.png" class="logo">
-    </div>
-    </router-link>
-    <div class="animation-container">
-      <p class="animated-text">Willkommen bei MogliChat</p>
-    </div>
-  </div>
-  <!-- Rechte Startseite mit Registerformular -->
-  <div class="startseite-rechts">
-    <h1>Erste Schritte</h1>
-    <div class="startseite-rechts-innenbox">
-      <button @click="anmelden" class="loginButton">Anmelden</button>
-      <button @click="registrieren" class="registerButton">Registrieren</button>
-    </div>
-  </div>
-</template>
-
-<!-- Styling -->
 <style scoped>
-/* Styling für linke Startseite */
-.startseite-links {
+/* linke Startseite */
+.startview-left-side {
   background-color: #4a536b;
   padding: 30px;
   display: flex;
@@ -59,9 +56,9 @@ function registrieren() {
   height: 100%;
 }
 .animated-text {
-  font-size: 2em;
+  font-size: 5em;
   color: #83deb0;
-  animation: slideIn 3s ease infinite;
+  animation: slideIn 4s ease infinite;
 }
 /* für .animated-text */
 @keyframes slideIn {
@@ -78,13 +75,13 @@ function registrieren() {
   }
 }
 
-.startseite-links .logo {
+.startview-left-side .logo {
   height: 5em;
   width: auto;
   vertical-align: middle;
 }
 /* Styling für rechte Startseite */
-.startseite-rechts {
+.login-header {
   background-color: #313332;
   display: flex;
   grid-column-start: 2;
@@ -96,7 +93,7 @@ function registrieren() {
   color: #83deb0;
 }
 
-.loginButton, .registerButton {
+.login-button, .register-button {
   background-color: #4a536b;
   color: #83deb0;
   height: 5vh;
@@ -104,5 +101,7 @@ function registrieren() {
   border-radius: 10px;
   margin: 15px 5px 10px 10px;
   border: 1px solid #83deb0;
+  font-size: 20px;
+  font-weight: bold;
 }
 </style>

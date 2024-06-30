@@ -1,0 +1,15 @@
+.channel-description{
+    height: 130px;
+    background-color: #313332;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    grid-row-start: 1;
+    grid-column-start: 2;
+}
+.channel-name{
+    font-weight: bold;
+    font-size: 50px;
+    color: white;
+    margin-left: 50px;
+}

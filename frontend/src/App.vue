@@ -1,16 +1,11 @@
-<!-- Funktion: import notwendige Module + CSS-Style -->
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router';
-import "normalize.css"
+import { RouterLink, RouterView } from 'vue-router'
 </script>
 
-<!-- Struktur Form -->
 <template>
-  <div class="app-container">
-    <RouterView />
-  </div>
+  <RouterView />
 </template>
 
-<!-- Styling Form -->
 <style scoped>
+
 </style>

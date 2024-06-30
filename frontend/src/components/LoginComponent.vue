@@ -1,18 +1,47 @@
-<!-- Funktion: Benutzer anmelden -->
+<template>
+  <!-- Startseite links -->
+  <div class="startview-left-side">
+    <router-link to="/">
+      <div class="logo-container">
+        <img src="../assets/logo-transparent-png.png" class="logo">
+      </div>
+    </router-link>
+    <div class="animation-container">
+      <p class="animated-text">Willkommen bei MogliChat</p>
+    </div>
+  </div>
+  <!-- Startseite rechts -->
+  <div class="login-header">
+    <h1>Anmelden</h1>
+    <div class="input-group">
+      <span class="email-password">Email</span>
+      <input type="text" v-model="email" class="email-box">
+    </div>
+    <div class="input-group">
+      <span class="email-password">Passwort</span>
+      <input type="password" v-model="password" class="password-box">
+    </div>
+    <div class="register-box">
+      <button @click="anmelden" class="login-button"><b>Anmelden</b></button>
+    </div>
+    <div class="router-register-box">
+      <p>Noch kein Konto? <router-link to="/users" class="font-register">Registrieren</router-link></p>
+      <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
+    </div>
+  </div>
+</template>
+
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 import axios from "axios";
 import { ref } from "vue";
 
-// Router-Instanz für die Navigation
 const router = useRouter();
-// Variablen
 const email = ref('');
 const password = ref('');
 const errorMessage = ref<string | null>(null);
-// Basis-URL des Backends
 const baseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
-// Funktion zur Anmeldung mit POST-Anfrage
+// anmelden mit POST-Anfrage
 async function anmelden() {
   try {
     const response = await axios.post(baseUrl + "/login", {
@@ -20,18 +49,17 @@ async function anmelden() {
       password: password.value
     });
 // Benutzerinformationen speichern
-    /*localStorage.setItem('currentUser', JSON.stringify(response.data));
+    localStorage.setItem('currentUser', JSON.stringify(response.data));
     console.log("User authenticated:", response.data);
     errorMessage.value = null; // Fehlermeldung bei Erfolg resetten
-    router.push('/chat'); // Navigation zu /chat*/
-    await router.push({name: 'chat', params: {userId: response.data.id,}})
+    await router.push({name: 'ChatUI', params: {userId: response.data.id,}})
   } catch (error) {
 // Fehlerbehandlung bei fehlgeschlagener Anmeldung
     if (axios.isAxiosError(error) && error.response) {
       if (error.response.status === 401 || error.response.status === 404) {
         errorMessage.value = error.response.data;
       } else {
-        errorMessage.value = 'Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.';
+        errorMessage.value = 'User does not exist. Try again.';
       }
     } else {
       errorMessage.value = 'Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.';
@@ -40,56 +68,30 @@ async function anmelden() {
 }
 </script>
 
-<!-- Struktur Seite -->
-<template>
-<!-- Startseite links -->
-  <div class="startseite-links">
-    <router-link to="/">
-      <div class="logo-container">
-        <img src="../assets/logo-transparent-png.png" class="logo"> <!-- Logo -->
-      </div>
-    </router-link>
-    <div class="animation-container">
-      <p class="animated-text">Willkommen bei MogliChat</p> <!-- Nachrichtenanzeige -->
-    </div>
-  </div>
-<!-- Startseite rechts Anmeldeformular -->
-  <div class="startseite-rechts">
-    <h1>Anmelden</h1>
-    <div class="input-group">
-      <span class="email-password">Email</span>
-      <input type="text" v-model="email" class="emailbox">
-    </div>
-    <div class="input-group">
-      <span class="email-password">Passwort</span>
-      <input type="password" v-model="password" class="passwordbox">
-    </div>
-    <div class="startseite-rechts-innenbox">
-      <button @click="anmelden" class="loginButton">Anmelden</button>
-      <p>Noch kein Konto? <router-link to="/register">Registrieren</router-link></p>
-      <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
-    </div>
-  </div>
-</template>
-
-<!-- Styling -->
 <style scoped>
-/* Styling für Labels */
+/* box */
 .email-password {
   text-align: left;
   margin-right: 10px;
   align-self: flex-start;
+  font-size: 16px;
 }
-/* Layout Eingabefeld*/
+.register-box{
+  margin-top: 10px;
+  font-size: 14px;
+}
+/* Eingabefeld */
 .input-group {
   display: flex;
   flex-direction: column;
+  width: 25%;
 }
 .input-group input {
   align-self: stretch;
 }
-/* Styling für linke Startseite */
-.startseite-links {
+
+/* linke Startseite */
+.startview-left-side {
   background-color: #4a536b;
   padding: 30px;
   display: flex;
@@ -108,13 +110,12 @@ async function anmelden() {
   justify-content: center;
   height: 100%;
 }
-/* Kriegt die Animation von keyframes */
 .animated-text {
-  font-size: 2em;
+  font-size: 5em;
   color: #83deb0;
-  animation: slideIn 3s ease infinite;
+  animation: slideIn 4s ease infinite;
 }
-/* Styling Animation */
+/* für .animated-text */
 @keyframes slideIn {
   0% {
     transform: translateY(-100%);
@@ -129,13 +130,14 @@ async function anmelden() {
   }
 }
 /* Styling Logo */
-.startseite-links .logo {
+.startview-left-side .logo {
   height: 5em;
   width: auto;
   vertical-align: middle;
 }
-/* Styling für rechte Startseite */
-.startseite-rechts {
+
+/* rechte Startseite */
+.login-header {
   background-color: #313332;
   display: flex;
   grid-column-start: 2;
@@ -146,8 +148,7 @@ async function anmelden() {
   height: 100vh;
   color: #83deb0;
 }
-/* Styling Login-Button */
-.loginButton{
+.login-button{
   background-color: #4a536b;
   color: #83deb0;
   height: 5vh;
@@ -155,13 +156,16 @@ async function anmelden() {
   border-radius: 10px;
   margin: 15px 5px 10px 10px;
   border: 1px solid #83deb0;
+  font-size: 20px;
 }
-
-.startseite-rechts-innenbox p {
-  margin-top: 20px;
-  font-size: 14px;
+.router-register-box{
+  margin-top: 10px;
+  font-size: 17px;
 }
-/* Styling für Fehlermeldung */
+.font-register{
+  font-size: 17px;
+  color: #83deb0;
+}
 .error {
   color: red;
   margin-top: 10px;
