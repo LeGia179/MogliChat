@@ -76,7 +76,7 @@ public class MogliChatController {
         multichannelService.addMessageToTextchannel(message, channelId);
 
         ChatTransfer chatTransfer = new ChatTransfer();
-        chatTransfer.setMessage(message.getContent());
+        chatTransfer.setContent(message.getContent());
         chatTransfer.setSender(message.getSender().getUsername());
         chatTransfer.setDate(message.getDate());
         return ResponseEntity.ok(chatTransfer);
@@ -105,6 +105,7 @@ public class MogliChatController {
     public List<Textchannel> getChannelsByUserId(@PathVariable("userId") String userId){
         return multichannelService.getAllTextchannelsByUserId(userId);
     }
+
     //Benutzer aus KanalId
     @GetMapping("/channels/{channelId}/users")
     public List<User> getUsersOfTextChannel(@PathVariable("channelId") String channelId){
@@ -113,6 +114,7 @@ public class MogliChatController {
     //Benutzer von BenutzerId
     @GetMapping("/users/{userId}")
     public User getUsersById(@PathVariable("userId") String userId){
+
         return userService.getUserById(userId);
     }
 
@@ -195,4 +197,5 @@ public class MogliChatController {
         multichannelService.deleteTextchannelByName(name);
         return ResponseEntity.ok("Der Kanal mit den namen: " + name + " wurde gelöscht!");
     }
+
 }

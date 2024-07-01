@@ -2,7 +2,7 @@ package htwberlin.backend.WebSocketTransfer;
 
 public class MessageTransfer {
     private String id;
-    private String message;
+    private String content;
     private String date;
 
     private UserTransfer sender;
@@ -15,12 +15,12 @@ public class MessageTransfer {
         this.id = id;
     }
 
-    public String getMessage() {
-        return message;
+    public String getContent() {
+        return content;
     }
 
     public void setMessage(String message) {
-        this.message = message;
+        this.content = message;
     }
 
     public String getDate() {

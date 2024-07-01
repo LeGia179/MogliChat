@@ -1,16 +1,20 @@
 package htwberlin.backend.WebSocketTransfer;
 
+import lombok.Setter;
+import lombok.Getter;
+
+
 public class ChatTransfer {
-    private String message;
+    private String content;
     private String date;
     private String sender;
 
-    public String getMessage() {
-        return message;
+    public String getContent() {
+        return content;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public String getDate() {
